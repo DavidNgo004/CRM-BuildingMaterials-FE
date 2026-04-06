@@ -1,0 +1,78 @@
+/* ─── Dashboard Page Layout ──────────────────────────────────────────────────── */
+
+/* ── Error Banner ─────────────────────────────────────────────────── */
+.errorBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 13.5px;
+  color: #92400e;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.errorClose {
+  background: none;
+  border: 1px solid #d97706;
+  color: #92400e;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-family: inherit;
+}
+
+.errorClose:hover {
+  background: #fde68a;
+}
+
+/* ── KPI Section ──────────────────────────────────────────────────── */
+.section {
+  margin-bottom: 20px;
+}
+
+/* ── 3-Column Main Grid ───────────────────────────────────────────── */
+.mainGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────── */
+@media (max-width: 1200px) {
+  .mainGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .col:last-child {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mainGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .col:last-child {
+    grid-column: initial;
+    display: flex;
+    flex-direction: column;
+  }
+}

@@ -1,14 +1,7 @@
-import { useState } from 'react'
-import './App.css'
+import AppRoutes from "./routes";
 
 function App() {
-  
-  return (
-    <div className = "App">
-      test
-    </div>
-  )
-  
+  return <AppRoutes />;
 }
 
-export default App
+export default App;

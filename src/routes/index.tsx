@@ -1,0 +1,115 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
+import { Spin } from 'antd';
+import ProtectedRoute from '../components/ProtectedRoute';
+import { useAuth } from '../store/authContext';
+
+// ─── Lazy-loaded pages ────────────────────────────────────────────────────────
+
+const Login = lazy(() => import('../pages/Login'));
+const ProfilePage = lazy(() => import('../pages/auth/ProfilePage'));
+const StaffManagementPage = lazy(() => import('../pages/auth/StaffManagementPage'));
+const Dashboard = lazy(() => import('../pages/admin/Dashboard'));
+
+// ─── Loading fallback ─────────────────────────────────────────────────────────
+
+const PageLoader = () => (
+  <div style={{
+    minHeight: '60vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }}>
+    <Spin size="large" />
+  </div>
+);
+
+// ─── Smart root redirect ──────────────────────────────────────────────────────
+// Đã đăng nhập → về đúng dashboard theo role.
+// Chưa đăng nhập → về /login.
+
+function RootRedirect() {
+  const { isAuthenticated, isAdmin } = useAuth();
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  return <Navigate to={isAdmin ? '/admin/dashboard' : '/staff/dashboard'} replace />;
+}
+
+// ─── Login guard ──────────────────────────────────────────────────────────────
+// Nếu đã đăng nhập mà cố vào /login → redirect về dashboard ngay.
+
+function LoginGuard({ children }: { children: React.ReactNode }) {
+  const { isAuthenticated, isAdmin } = useAuth();
+  if (isAuthenticated) {
+    return <Navigate to={isAdmin ? '/admin/dashboard' : '/staff/dashboard'} replace />;
+  }
+  return <>{children}</>;
+}
+
+// ─── Routes ───────────────────────────────────────────────────────────────────
+
+export default function AppRoutes() {
+  return (
+    <BrowserRouter>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+
+          {/* Public */}
+          <Route
+            path="/login"
+            element={
+              <LoginGuard>
+                <Login />
+              </LoginGuard>
+            }
+          />
+
+          {/* Redirect gốc — thông minh theo role */}
+          <Route path="/" element={<RootRedirect />} />
+
+          {/* ── Protected: bất kỳ ai đã login ── */}
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* ── Protected: chỉ Admin ── */}
+          <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedRoute role="admin">
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/staff-management"
+            element={
+              <ProtectedRoute role="admin" redirectTo="/admin/dashboard">
+                <StaffManagementPage />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* TODO: staff dashboard — thêm sau khi build module */}
+          <Route
+            path="/staff/dashboard"
+            element={
+              <ProtectedRoute role="warehouse_staff" redirectTo="/login">
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Catch-all */}
+          <Route path="*" element={<Navigate to="/login" replace />} />
+
+        </Routes>
+      </Suspense>
+    </BrowserRouter>
+  );
+}

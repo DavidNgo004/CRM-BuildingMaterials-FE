@@ -1,0 +1,98 @@
+/* // ─── Dashboard CSS Variables & Shared Styles ───────────────────────────────────
+// File này khai báo design tokens riêng cho dashboard module.
+// Import file này 1 lần duy nhất ở DashboardLayout.tsx */
+
+.dashboardRoot {
+  --db-bg: #f0f2f5;
+  --db-card-bg: #ffffff;
+  --db-border: #e8eaed;
+  --db-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  --db-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --db-radius: 10px;
+  --db-radius-sm: 6px;
+
+  /* Brand palette */
+  --db-primary: #2563eb;
+  --db-primary-light: #eff6ff;
+  --db-success: #16a34a;
+  --db-success-light: #f0fdf4;
+  --db-warning: #d97706;
+  --db-warning-light: #fffbeb;
+  --db-danger: #dc2626;
+  --db-danger-light: #fef2f2;
+  --db-info: #0891b2;
+  --db-info-light: #ecfeff;
+  --db-purple: #7c3aed;
+  --db-purple-light: #f5f3ff;
+
+  /* Text */
+  --db-text-primary: #111827;
+  --db-text-secondary: #6b7280;
+  --db-text-muted: #9ca3af;
+
+  /* Navbar */
+  --db-nav-bg: #1e2a3a;
+  --db-nav-text: #cbd5e1;
+  --db-nav-active: #ffffff;
+
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  background: var(--db-bg);
+  min-height: 100vh;
+  color: var(--db-text-primary);
+}
+
+body {
+  width: 100%;
+}
+
+/* ── Shared Card ─────────────────────────────────────────────────── */
+.dbCard {
+  background: var(--db-card-bg);
+  border: 1px solid var(--db-border);
+  border-radius: var(--db-radius);
+  box-shadow: var(--db-shadow);
+  padding: 20px;
+  transition: box-shadow 0.2s ease;
+}
+
+.dbCard:hover {
+  box-shadow: var(--db-shadow-hover);
+}
+
+.dbCardTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--db-text-primary);
+  margin: 0 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── Section Header ──────────────────────────────────────────────── */
+.sectionHeader {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--db-text-secondary);
+  margin: 0 0 12px;
+}
+
+/* ── Loading Skeleton ────────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 4px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}

@@ -1,0 +1,118 @@
+.card {
+  background: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #e8eaed;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.count {
+  font-size: 11.5px;
+  font-weight: 600;
+  background: #eff6ff;
+  color: #2563eb;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.feed {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 9px 6px;
+  border-radius: 8px;
+  transition: background 0.15s;
+}
+
+.row:hover {
+  background: #f9fafb;
+}
+
+/* Avatar circle */
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.avatar.import {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.avatar.export {
+  background: #f0fdf4;
+  color: #16a34a;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.desc {
+  font-size: 12.5px;
+  color: #374151;
+  line-height: 1.4;
+}
+
+.desc strong {
+  color: #111827;
+  font-weight: 600;
+}
+
+.typeTag {
+  font-size: 13px;
+}
+
+.time {
+  font-size: 11.5px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+.skeletonRow {
+  height: 44px;
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 8px;
+  margin-bottom: 6px;
+}
+
+.empty {
+  text-align: center;
+  color: #9ca3af;
+  font-size: 13px;
+  padding: 24px 0;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
