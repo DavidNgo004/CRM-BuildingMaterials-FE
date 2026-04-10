@@ -1,4 +1,4 @@
-import type { AiSuggestion } from '../../../types/dashboard';
+import type { AiSuggestion } from '../../../types/Admin/dashboard';
 import styles from './AiSuggestions.module.css';
 
 // ─── AiSuggestions ────────────────────────────────────────────────────────────

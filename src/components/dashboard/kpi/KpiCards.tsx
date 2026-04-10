@@ -1,4 +1,4 @@
-import type { DashboardKpi } from '../../../types/dashboard';
+import type { DashboardKpi } from '../../../types/Admin/dashboard';
 import styles from './KpiCards.module.css';
 
 // ─── KpiCards ─────────────────────────────────────────────────────────────────
@@ -33,7 +33,6 @@ export default function KpiCards({ kpi, isLoading }: KpiCardsProps) {
       label: "Doanh thu hôm nay",
       value: fmt(kpi.revenue_today),
       sub: `${kpi.export_count_today} đơn xuất`,
-      icon: '💰',
       color: 'blue',
     },
     {
@@ -41,7 +40,6 @@ export default function KpiCards({ kpi, isLoading }: KpiCardsProps) {
       label: "Doanh thu tháng",
       value: fmt(kpi.revenue),
       sub: `${kpi.export_count} đơn hoàn thành`,
-      icon: '📈',
       color: 'green',
     },
     {
@@ -49,7 +47,6 @@ export default function KpiCards({ kpi, isLoading }: KpiCardsProps) {
       label: "Lợi nhuận ròng",
       value: fmt(kpi.profit),
       sub: `COGS: ${fmt(kpi.cogs)}`,
-      icon: '💎',
       color: 'purple',
       negative: kpi.profit < 0,
     },
@@ -58,7 +55,6 @@ export default function KpiCards({ kpi, isLoading }: KpiCardsProps) {
       label: "Cảnh báo tồn kho",
       value: `${kpi.low_stock_count} Cảnh báo`,
       sub: "Sản phẩm sắp hết hàng",
-      icon: '⚠️',
       color: kpi.low_stock_count > 0 ? 'danger' : 'green',
     },
   ];
@@ -69,7 +65,6 @@ export default function KpiCards({ kpi, isLoading }: KpiCardsProps) {
         <div key={card.id} id={card.id} className={`${styles.card} ${styles[card.color]}`}>
           <div className={styles.cardHeader}>
             <span className={styles.label}>{card.label}</span>
-            <span className={styles.icon}>{card.icon}</span>
           </div>
           <div className={`${styles.value} ${card.negative ? styles.negative : ''}`}>
             {card.value}

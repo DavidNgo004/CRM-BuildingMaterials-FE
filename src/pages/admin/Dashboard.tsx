@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useDashboard } from '../../hooks/useDashboard';
 import { useAuth } from '../../store/authContext';
-import type { DashboardPeriod } from '../../types/dashboard';
+import { useNavigate } from 'react-router-dom';
+import type { DashboardPeriod } from '../../types/Admin/dashboard';
 
 // ── Layout
 import DashboardLayout from '../../components/dashboard/DashboardLayout';
@@ -37,9 +38,16 @@ import styles from './Dashboard.module.css';
 //   Cột giữa (4/12):  Top Products + Profit Chart
 //   Cột phải (4/12):  AI Suggestions + Inventory Alerts + Recent Activities
 
-export default function Dashboard() {
-  const { user } = useAuth();
+function AdminDashboard() {
   const [period, setPeriod] = useState<DashboardPeriod>('this_month');
+
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login");
+  };
 
   const {
     kpi,
@@ -59,6 +67,7 @@ export default function Dashboard() {
       userName={user?.name ?? 'Admin'}
       onRefresh={refresh}
       isLoading={isLoading}
+      onLogout={handleLogout}
     >
       {/* ── Error banner ── */}
       {error && (
@@ -141,4 +150,6 @@ export default function Dashboard() {
       </div>
     </DashboardLayout>
   );
+
 }
+export default AdminDashboard;

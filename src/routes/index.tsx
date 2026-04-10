@@ -3,13 +3,15 @@ import { lazy, Suspense } from 'react';
 import { Spin } from 'antd';
 import ProtectedRoute from '../components/ProtectedRoute';
 import { useAuth } from '../store/authContext';
+import SupplierPage from '../pages/admin/SupplierPage';
 
 // ─── Lazy-loaded pages ────────────────────────────────────────────────────────
 
 const Login = lazy(() => import('../pages/Login'));
 const ProfilePage = lazy(() => import('../pages/auth/ProfilePage'));
-const StaffManagementPage = lazy(() => import('../pages/auth/StaffManagementPage'));
-const Dashboard = lazy(() => import('../pages/admin/Dashboard'));
+const StaffManagementPage = lazy(() => import('../pages/admin/StaffManagementPage'));
+const AdminDashboard = lazy(() => import('../pages/admin/Dashboard'));
+const StaffDashboard = lazy(() => import('../pages/staff/StaffDashboard'));
 
 // ─── Loading fallback ─────────────────────────────────────────────────────────
 
@@ -81,7 +83,7 @@ export default function AppRoutes() {
             path="/admin/dashboard"
             element={
               <ProtectedRoute role="admin">
-                <Dashboard />
+                <AdminDashboard />
               </ProtectedRoute>
             }
           />
@@ -100,7 +102,16 @@ export default function AppRoutes() {
             path="/staff/dashboard"
             element={
               <ProtectedRoute role="warehouse_staff" redirectTo="/login">
-                <Dashboard />
+                <StaffDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/supplier-management"
+            element={
+              <ProtectedRoute role="admin" redirectTo="/admin/dashboard">
+                <SupplierPage />
               </ProtectedRoute>
             }
           />

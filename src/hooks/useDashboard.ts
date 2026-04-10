@@ -6,7 +6,7 @@ import type {
   DashboardAlerts,
   DashboardMiniReports,
   DashboardPeriod,
-} from '../types/dashboard';
+} from '../types/Admin/dashboard';
 import {
   fetchKpiCards,
   fetchCharts,

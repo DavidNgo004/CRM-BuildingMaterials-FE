@@ -7,7 +7,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
-import type { ProfitChartPoint } from '../../../types/dashboard';
+import type { ProfitChartPoint } from '../../../types/Admin/dashboard';
 import styles from './ProfitChart.module.css';
 
 // ─── ProfitChart ──────────────────────────────────────────────────────────────
@@ -37,7 +37,7 @@ export default function ProfitChart({ data, isLoading }: ProfitChartProps) {
   if (isLoading || !data) {
     return (
       <div className={styles.card}>
-        <div className={styles.title}>📉 Xu hướng lợi nhuận</div>
+        <div className={styles.title}> Xu hướng lợi nhuận</div>
         <div className={styles.skeletonChart} />
       </div>
     );
@@ -47,7 +47,7 @@ export default function ProfitChart({ data, isLoading }: ProfitChartProps) {
 
   return (
     <div className={styles.card}>
-      <div className={styles.title}>📉 Xu hướng lợi nhuận</div>
+      <div className={styles.title}>Xu hướng lợi nhuận</div>
       <div className={styles.chartWrap}>
         <ResponsiveContainer width="100%" height={180}>
           <BarChart data={chartData} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>

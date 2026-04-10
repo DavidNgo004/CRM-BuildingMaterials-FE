@@ -1,4 +1,4 @@
-import type { InventoryAlert } from '../../../types/dashboard';
+import type { InventoryAlert } from '../../../types/Admin/dashboard';
 import styles from './InventoryAlerts.module.css';
 
 // ─── InventoryAlerts ──────────────────────────────────────────────────────────

@@ -1,4 +1,4 @@
-import type { TopProduct } from '../../../types/dashboard';
+import type { TopProduct } from '../../../types/Admin/dashboard';
 import styles from './TopProducts.module.css';
 
 // ─── TopProducts ──────────────────────────────────────────────────────────────
@@ -16,7 +16,7 @@ export default function TopProducts({ data, isLoading }: TopProductsProps) {
   if (isLoading || !data) {
     return (
       <div className={styles.card}>
-        <div className={styles.title}>🏆 Sản phẩm bán chạy</div>
+        <div className={styles.title}> Sản phẩm bán chạy</div>
         {[1, 2, 3, 4].map((i) => (
           <div key={i} className={styles.skeletonRow} />
         ))}
@@ -28,7 +28,7 @@ export default function TopProducts({ data, isLoading }: TopProductsProps) {
 
   return (
     <div className={styles.card}>
-      <div className={styles.title}>🏆 Sản phẩm bán chạy</div>
+      <div className={styles.title}> Sản phẩm bán chạy</div>
       <div className={styles.list}>
         {data.map((product, idx) => (
           <div key={product.product_id} className={styles.row}>

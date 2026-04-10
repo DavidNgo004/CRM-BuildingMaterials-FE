@@ -7,7 +7,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
-import type { RevenueChartPoint } from '../../../types/dashboard';
+import type { RevenueChartPoint } from '../../../types/Admin/dashboard';
 import styles from './RevenueChart.module.css';
 
 // ─── RevenueChart ─────────────────────────────────────────────────────────────
@@ -38,7 +38,7 @@ export default function RevenueChart({ data, isLoading }: RevenueChartProps) {
     return (
       <div className={styles.card}>
         <div className={styles.header}>
-          <span className={styles.title}>📊 Tổng quan doanh thu</span>
+          <span className={styles.title}>Tổng quan doanh thu</span>
         </div>
         <div className={styles.skeletonChart} />
       </div>
@@ -50,7 +50,7 @@ export default function RevenueChart({ data, isLoading }: RevenueChartProps) {
   return (
     <div className={styles.card}>
       <div className={styles.header}>
-        <span className={styles.title}>📊 Tổng quan doanh thu</span>
+        <span className={styles.title}>Tổng quan doanh thu</span>
       </div>
 
       <div className={styles.chartWrap}>

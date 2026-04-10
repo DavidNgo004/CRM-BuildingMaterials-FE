@@ -6,7 +6,7 @@ import type {
   DashboardAlerts,
   DashboardMiniReports,
   DashboardPeriod,
-} from '../../types/dashboard';
+} from '../../types/Admin/dashboard';
 
 // ─── Dashboard API Layer ──────────────────────────────────────────────────────
 // Mỗi hàm map 1-1 với 1 endpoint của DashboardController backend.

@@ -1,4 +1,4 @@
-import type { TopCustomer } from '../../../types/dashboard';
+import type { TopCustomer } from '../../../types/Admin/dashboard';
 import styles from './MiniReports.module.css';
 
 // ─── TopCustomers ─────────────────────────────────────────────────────────────

@@ -1,4 +1,5 @@
 import { message } from "antd";
+import "./notify.css";
 
 export const notifySuccess = (msg: string) => {
   message.success(msg);

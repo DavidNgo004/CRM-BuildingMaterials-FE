@@ -1,4 +1,5 @@
-import type { Activity } from '../../../types/dashboard';
+import type { Activity } from '../../../types/Admin/dashboard';
+import { ImportOutlined, ExportOutlined } from '@ant-design/icons';
 import styles from './RecentActivities.module.css';
 
 // ─── RecentActivities ─────────────────────────────────────────────────────────
@@ -10,9 +11,9 @@ interface RecentActivitiesProps {
   isLoading?: boolean;
 }
 
-const TYPE_ICON: Record<string, string> = {
-  import: '📥',
-  export: '📤',
+const TYPE_ICON: Record<string, React.ReactNode> = {
+  import: <ImportOutlined />,
+  export: <ExportOutlined />,
 };
 
 const TYPE_COLOR: Record<string, string> = {
@@ -28,7 +29,7 @@ export default function RecentActivities({ data, isLoading }: RecentActivitiesPr
   return (
     <div className={styles.card}>
       <div className={styles.header}>
-        <span className={styles.title}>🕐 Hoạt động gần đây</span>
+        <span className={styles.title}>Hoạt động gần đây</span>
         <span className={styles.count}>{data.length}</span>
       </div>
 

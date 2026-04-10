@@ -240,6 +240,7 @@ body,
 .auth-error {
   border-radius: 10px !important;
   margin-bottom: 20px;
+  color: #fff !important;
   background: rgba(239, 68, 68, 0.1) !important;
   border-color: rgba(239, 68, 68, 0.3) !important;
 }
@@ -265,6 +266,12 @@ body,
 /* ─── Profile & Staff Management Pages ───────────────────────────────────── */
 
 .auth-inner-page {
+  padding: 24px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.auth-inner-page-card {
   padding: 24px;
   max-width: 900px;
   margin: 0 auto;

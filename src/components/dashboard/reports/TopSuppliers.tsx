@@ -1,4 +1,4 @@
-import type { TopSupplier } from '../../../types/dashboard';
+import type { TopSupplier } from '../../../types/Admin/dashboard';
 import styles from './MiniReports.module.css';
 
 // ─── TopSuppliers ─────────────────────────────────────────────────────────────
