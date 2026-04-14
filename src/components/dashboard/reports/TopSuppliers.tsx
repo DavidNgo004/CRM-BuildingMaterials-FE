@@ -16,7 +16,7 @@ const fmt = (n: number) =>
 export default function TopSuppliers({ data, isLoading }: TopSuppliersProps) {
   return (
     <div className={styles.card}>
-      <div className={styles.title}>🏭 Top nhà cung cấp</div>
+      <div className={styles.title}>Top nhà cung cấp</div>
       {isLoading ? (
         [1, 2, 3].map((i) => <div key={i} className={styles.skeletonRow} />)
       ) : (

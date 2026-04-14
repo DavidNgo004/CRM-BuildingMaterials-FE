@@ -14,7 +14,6 @@ export default function AiSuggestions({ data, isLoading }: AiSuggestionsProps) {
   return (
     <div className={styles.card}>
       <div className={styles.header}>
-        <span className={styles.aiIcon}>🤖</span>
         <span className={styles.title}>Gợi ý nhập hàng AI</span>
       </div>
       {isLoading ? (

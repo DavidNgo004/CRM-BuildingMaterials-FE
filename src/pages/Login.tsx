@@ -8,6 +8,7 @@ import {
 import { useLogin } from '../hooks/auth/useLogin';
 import type { LoginRequest } from '../types/auth';
 import '../styles/auth.css';
+import { useEffect } from 'react';
 
 /**
  * Login Page — Entry point của ứng dụng CRM VLXD.
@@ -17,6 +18,9 @@ import '../styles/auth.css';
  */
 export default function Login() {
   const { loading, error, handleLogin } = useLogin();
+  useEffect(() => {
+    document.title = 'Đăng nhập hệ thống';
+  }, []);
   return (
     <div className="auth-page">
       <div className="auth-card">

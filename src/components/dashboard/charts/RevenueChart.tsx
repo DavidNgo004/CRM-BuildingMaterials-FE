@@ -1,18 +1,18 @@
 import {
-  AreaChart,
-  Area,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
+  Legend,
   ResponsiveContainer,
 } from 'recharts';
 import type { RevenueChartPoint } from '../../../types/Admin/dashboard';
 import styles from './RevenueChart.module.css';
 
-// ─── RevenueChart ─────────────────────────────────────────────────────────────
-// Line/Area chart hiển thị doanh thu theo ngày hoặc tháng.
-// Dữ liệu từ DashboardChartService.revenueChart()
+// ─── RevenueChart (Overview) ──────────────────────────────────────────────────
+// Line chart hiển thị doanh thu, lợi nhuận ròng và chi phí.
 
 interface RevenueChartProps {
   data: RevenueChartPoint[];
@@ -54,14 +54,8 @@ export default function RevenueChart({ data, isLoading }: RevenueChartProps) {
       </div>
 
       <div className={styles.chartWrap}>
-        <ResponsiveContainer width="100%" height={200}>
-          <AreaChart data={chartData} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
-            <defs>
-              <linearGradient id="revenueGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#2563eb" stopOpacity={0.25} />
-                <stop offset="95%" stopColor="#2563eb" stopOpacity={0} />
-              </linearGradient>
-            </defs>
+        <ResponsiveContainer width="100%" height={240}>
+          <LineChart data={chartData} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" vertical={false} />
             <XAxis
               dataKey="label"
@@ -77,24 +71,58 @@ export default function RevenueChart({ data, isLoading }: RevenueChartProps) {
               width={55}
             />
             <Tooltip
-              formatter={(value) => [fmtFull(Number(value ?? 0)), 'Doanh thu']}
+              formatter={(value: any, name: any) => {
+                let labelName = String(name);
+                if (name === 'revenue') labelName = 'Doanh thu';
+                if (name === 'net_profit') labelName = 'Lợi nhuận ròng';
+                if (name === 'expense') labelName = 'Chi phí';
+                return [fmtFull(Number(value) ?? 0), labelName];
+              }}
               contentStyle={{
                 border: '1px solid #e5e7eb',
                 borderRadius: 8,
                 fontSize: 12,
                 boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                backgroundColor: '#fff',
               }}
             />
-            <Area
+            <Legend 
+               wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }}
+               formatter={(value) => {
+                if (value === 'revenue') return 'Doanh thu';
+                if (value === 'net_profit') return 'Lợi nhuận ròng';
+                if (value === 'expense') return 'Chi phí';
+                return value;
+               }}
+            />
+            <Line
               type="monotone"
               dataKey="revenue"
+              name="revenue"
               stroke="#2563eb"
               strokeWidth={2.5}
-              fill="url(#revenueGrad)"
               dot={{ r: 3, fill: '#2563eb', strokeWidth: 0 }}
-              activeDot={{ r: 5, fill: '#2563eb' }}
+              activeDot={{ r: 5 }}
             />
-          </AreaChart>
+            <Line
+              type="monotone"
+              dataKey="net_profit"
+              name="net_profit"
+              stroke="#10b981"
+              strokeWidth={2.5}
+              dot={{ r: 3, fill: '#10b981', strokeWidth: 0 }}
+              activeDot={{ r: 5 }}
+            />
+            <Line
+              type="monotone"
+              dataKey="expense"
+              name="expense"
+              stroke="#ef4444"
+              strokeWidth={2.5}
+              dot={{ r: 3, fill: '#ef4444', strokeWidth: 0 }}
+              activeDot={{ r: 5 }}
+            />
+          </LineChart>
         </ResponsiveContainer>
       </div>
     </div>

@@ -16,7 +16,7 @@ const fmt = (n: number) =>
 export default function TopCustomers({ data, isLoading }: TopCustomersProps) {
   return (
     <div className={styles.card}>
-      <div className={styles.title}>🏢 Top khách hàng</div>
+      <div className={styles.title}>Top khách hàng</div>
       {isLoading ? (
         [1, 2, 3].map((i) => <div key={i} className={styles.skeletonRow} />)
       ) : (

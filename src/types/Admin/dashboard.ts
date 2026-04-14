@@ -26,6 +26,8 @@ export interface RevenueChartPoint {
   date?: string;
   month?: string;
   revenue: number;
+  expense?: number;
+  net_profit?: number;
 }
 
 export interface ProfitChartPoint {

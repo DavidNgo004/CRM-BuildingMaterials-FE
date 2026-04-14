@@ -29,25 +29,25 @@ export default function KpiCards({ kpi, isLoading }: KpiCardsProps) {
 
   const cards = [
     {
-      id: 'kpi-today-sales',
-      label: "Doanh thu hôm nay",
-      value: fmt(kpi.revenue_today),
-      sub: `${kpi.export_count_today} đơn xuất`,
+      id: 'kpi-revenue',
+      label: "Doanh thu",
+      value: fmt(kpi.revenue),
+      sub: `${kpi.export_count} đơn xuất`,
       color: 'blue',
     },
     {
-      id: 'kpi-monthly-revenue',
-      label: "Doanh thu tháng",
-      value: fmt(kpi.revenue),
-      sub: `${kpi.export_count} đơn hoàn thành`,
-      color: 'green',
+      id: 'kpi-expenses',
+      label: "Chi phí vận hành",
+      value: fmt(kpi.expenses),
+      sub: `Giá vốn (COGS): ${fmt(kpi.cogs)}`,
+      color: 'purple',
     },
     {
-      id: 'kpi-monthly-profit',
+      id: 'kpi-profit',
       label: "Lợi nhuận ròng",
       value: fmt(kpi.profit),
-      sub: `COGS: ${fmt(kpi.cogs)}`,
-      color: 'purple',
+      sub: "Lợi nhuận sau phí",
+      color: 'green',
       negative: kpi.profit < 0,
     },
     {

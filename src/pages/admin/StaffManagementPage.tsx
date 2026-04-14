@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Card,
   Button,
@@ -6,6 +6,7 @@ import {
   Space,
   Alert,
   Statistic,
+  Input,
 } from 'antd';
 import {
   PlusOutlined,
@@ -28,6 +29,9 @@ const { Title, Text } = Typography;
  * Chỉ accessible bởi admin (guard ở ProtectedRoute).
  */
 export default function StaffManagementPage() {
+  useEffect(() => {
+    document.title = 'Quản lý nhân viên kho';
+  }, []);
   const { staffs, loading, error, createStaff, updateStaff, deleteStaff } = useStaff();
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -41,6 +45,12 @@ export default function StaffManagementPage() {
   const [editingStaff, setEditingStaff] = useState<Staff | null>(null);
   const [modalLoading, setModalLoading] = useState(false);
   const [modalError, setModalError] = useState<string | null>(null);
+  const [searchText, setSearchText] = useState('');
+
+  const filteredStaffs = staffs.filter(s =>
+    (s.name?.toLowerCase() || '').includes(searchText.toLowerCase()) ||
+    (s.email?.toLowerCase() || '').includes(searchText.toLowerCase())
+  );
 
   const openCreate = () => {
     setEditingStaff(null);
@@ -99,19 +109,27 @@ export default function StaffManagementPage() {
             </Text>
           </Space>
 
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={openCreate}
-            style={{
-              background: 'linear-gradient(135deg, #7c3aed, #4f46e5)',
-              border: 'none',
-              borderRadius: 8,
-              fontWeight: 600,
-            }}
-          >
-            Thêm nhân viên
-          </Button>
+          <Space >
+            <Input.Search
+              placeholder="Tìm kiếm nhân viên..."
+              allowClear
+              onChange={(e) => setSearchText(e.target.value)}
+              style={{ width: 250 }}
+            />
+            <Button
+              type="primary"
+              icon={<PlusOutlined />}
+              onClick={openCreate}
+              style={{
+                background: 'linear-gradient(135deg, #7c3aed, #4f46e5)',
+                border: 'none',
+                borderRadius: 8,
+                fontWeight: 600,
+              }}
+            >
+              Thêm nhân viên
+            </Button>
+          </Space>
         </div>
 
         {/* ── Stats ── */}
@@ -140,7 +158,7 @@ export default function StaffManagementPage() {
         {/* ── Table ── */}
         <Card style={{ borderRadius: 16 }}>
           <StaffTable
-            staffs={staffs}
+            staffs={filteredStaffs}
             loading={loading}
             onEdit={openEdit}
             onDelete={handleDelete}

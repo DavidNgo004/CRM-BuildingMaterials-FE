@@ -72,9 +72,11 @@ export default function DashboardLayout({
             <a href="/admin/staff-management" className={`${styles.navLink} ${path.includes('/staff-management') ? styles.navLinkActive : ''}`}>
               Tài khoản
             </a>
-            <a href="#" className={styles.navLink}>Tồn kho</a>
+            <a href="/admin/import-management" className={`${styles.navLink} ${path.includes('/import-management') ? styles.navLinkActive : ''}`}>Nhập Kho</a>
+            <a href="/admin/export-management" className={`${styles.navLink} ${path.includes('/export-management') ? styles.navLinkActive : ''}`}>Xuất Kho</a>
+            <a href="/admin/product-management" className={`${styles.navLink} ${path.includes('/product-management') ? styles.navLinkActive : ''}`}>Sản phẩm</a>
             <a href="/admin/supplier-management" className={`${styles.navLink} ${path.includes('/supplier-management') ? styles.navLinkActive : ''}`}>Nhà cung cấp</a>
-            <a href="#" className={styles.navLink}>Khách hàng</a>
+            <a href="/admin/customer-management" className={`${styles.navLink} ${path.includes('/customer-management') ? styles.navLinkActive : ''}`}>Khách hàng</a>
             <a href="#" className={styles.navLink}>Báo cáo</a>
           </nav>
         </div>

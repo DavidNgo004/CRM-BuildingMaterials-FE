@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDashboard } from '../../hooks/useDashboard';
 import { useAuth } from '../../store/authContext';
 import { useNavigate } from 'react-router-dom';
@@ -39,6 +39,9 @@ import styles from './Dashboard.module.css';
 //   Cột phải (4/12):  AI Suggestions + Inventory Alerts + Recent Activities
 
 function AdminDashboard() {
+  useEffect(() => {
+    document.title = 'Dashboard - Quản trị hệ thống';
+  }, []);
   const [period, setPeriod] = useState<DashboardPeriod>('this_month');
 
   const navigate = useNavigate();

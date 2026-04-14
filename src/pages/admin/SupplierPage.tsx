@@ -6,6 +6,7 @@ import {
     Space,
     Alert,
     Statistic,
+    Input,
 } from 'antd';
 import {
     PlusOutlined,
@@ -17,12 +18,15 @@ import DashboardLayout from '../../components/dashboard/DashboardLayout';
 import SupplierTable from '../../components/supplier/supplierTable';
 import SupplierModal from '../../components/supplier/SupplierModal';
 import { useSupplier } from '../../hooks/supplier/useSupplier';
-import type { Supplier, CreateSupplierRequest, UpdateSupplierRequest } from '../../types/supplier';
+import type { Supplier, CreateSupplierRequest, UpdateSupplierRequest } from '../../types/Admin/supplier';
 import '../../styles/auth.css';
 
 const { Title, Text } = Typography;
 
 export default function SupplierPage() {
+    useEffect(() => {
+        document.title = 'Quản lý nhà cung cấp';
+    }, [])
     const { suppliers, loading, error, fetchSuppliers, createSupplier, updateSupplier, deleteSupplier } = useSupplier();
     const { user, logout } = useAuth();
     const navigate = useNavigate();
@@ -35,6 +39,13 @@ export default function SupplierPage() {
     const [modalOpen, setModalOpen] = useState(false);
     const [editingSupplier, setEditingSupplier] = useState<Supplier | null>(null);
     const [modalLoading, setModalLoading] = useState(false);
+    const [searchText, setSearchText] = useState('');
+
+    const filteredSuppliers = suppliers.filter(s =>
+        (s.name?.toLowerCase() || '').includes(searchText.toLowerCase()) ||
+        (s.code?.toLowerCase() || '').includes(searchText.toLowerCase()) ||
+        (s.phone?.toLowerCase() || '').includes(searchText.toLowerCase())
+    );
 
     useEffect(() => {
         fetchSuppliers();
@@ -89,19 +100,27 @@ export default function SupplierPage() {
                         <Text type="secondary">Quản lý đối tác và nhà cung cấp vật liệu</Text>
                     </Space>
 
-                    <Button
-                        type="primary"
-                        icon={<PlusOutlined />}
-                        onClick={openCreate}
-                        style={{
-                            background: 'linear-gradient(135deg, #6366f1, #6366f1)',
-                            border: 'none',
-                            borderRadius: 8,
-                            fontWeight: 600,
-                        }}
-                    >
-                        Thêm nhà cung cấp
-                    </Button>
+                    <Space size="middle">
+                        <Input.Search
+                            placeholder="Tìm kiếm nhà cung cấp..."
+                            allowClear
+                            onChange={(e) => setSearchText(e.target.value)}
+                            style={{ width: 250 }}
+                        />
+                        <Button
+                            type="primary"
+                            icon={<PlusOutlined />}
+                            onClick={openCreate}
+                            style={{
+                                background: 'linear-gradient(135deg, #6366f1, #6366f1)',
+                                border: 'none',
+                                borderRadius: 8,
+                                fontWeight: 600,
+                            }}
+                        >
+                            Thêm nhà cung cấp
+                        </Button>
+                    </Space>
                 </div>
 
                 {/* ── Stats ── */}
@@ -124,7 +143,7 @@ export default function SupplierPage() {
                 {/* ── Table ── */}
                 <Card style={{ borderRadius: 16 }}>
                     <SupplierTable
-                        suppliers={suppliers}
+                        suppliers={filteredSuppliers}
                         loading={loading}
                         onEdit={openEdit}
                         onDelete={handleDelete}

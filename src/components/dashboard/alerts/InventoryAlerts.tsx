@@ -28,7 +28,7 @@ export default function InventoryAlerts({ data, isLoading }: InventoryAlertsProp
 
   return (
     <div className={styles.card}>
-      <div className={styles.title}>🔔 Cảnh báo tồn kho</div>
+      <div className={styles.title}>Cảnh báo tồn kho</div>
       {isLoading ? (
         [1, 2, 3].map((i) => <div key={i} className={styles.skeletonRow} />)
       ) : (

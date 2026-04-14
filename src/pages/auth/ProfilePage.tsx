@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import ChangePasswordForm from '../../components/auth/ChangePasswordForm';
 import DashboardLayout from '../../components/dashboard/DashboardLayout';
 import '../../styles/auth.css';
+import { useEffect } from 'react';
 
 const { Title, Text } = Typography;
 
@@ -14,6 +15,9 @@ const { Title, Text } = Typography;
  * Accessible bởi cả admin và warehouse_staff.
  */
 export default function ProfilePage() {
+  useEffect(() => {
+    document.title = 'Thông tin cá nhân';
+  }, []);
   const { user, logout } = useAuth();
   const changePwd = useChangePassword();
   const navigate = useNavigate();

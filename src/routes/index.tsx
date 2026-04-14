@@ -1,9 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { Spin } from 'antd';
 import ProtectedRoute from '../components/ProtectedRoute';
 import { useAuth } from '../store/authContext';
 import SupplierPage from '../pages/admin/SupplierPage';
+import ProductPage from '../pages/admin/ProductPage';
+import CustomerPage from '../pages/admin/CustomerPage';
+import ImportPage from '../pages/admin/ImportPage';
+import ExportPage from '../pages/admin/ExportPage';
 
 // ─── Lazy-loaded pages ────────────────────────────────────────────────────────
 
@@ -50,6 +54,7 @@ function LoginGuard({ children }: { children: React.ReactNode }) {
 // ─── Routes ───────────────────────────────────────────────────────────────────
 
 export default function AppRoutes() {
+
   return (
     <BrowserRouter>
       <Suspense fallback={<PageLoader />}>
@@ -96,8 +101,6 @@ export default function AppRoutes() {
               </ProtectedRoute>
             }
           />
-
-          {/* TODO: staff dashboard — thêm sau khi build module */}
           <Route
             path="/staff/dashboard"
             element={
@@ -108,10 +111,46 @@ export default function AppRoutes() {
           />
 
           <Route
+            path="/admin/product-management"
+            element={
+              <ProtectedRoute role="admin" redirectTo="/admin/dashboard">
+                <ProductPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
             path="/admin/supplier-management"
             element={
               <ProtectedRoute role="admin" redirectTo="/admin/dashboard">
                 <SupplierPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/customer-management"
+            element={
+              <ProtectedRoute role="admin" redirectTo="/admin/dashboard">
+                <CustomerPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/import-management"
+            element={
+              <ProtectedRoute role="admin" redirectTo="/admin/dashboard">
+                <ImportPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/export-management"
+            element={
+              <ProtectedRoute role="admin" redirectTo="/admin/dashboard">
+                <ExportPage />
               </ProtectedRoute>
             }
           />

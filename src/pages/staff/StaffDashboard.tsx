@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useAuth } from "../../store/authContext";
 import { useNavigate } from "react-router-dom";
 
@@ -8,9 +9,12 @@ export default function StaffDashboard() {
         await logout();
         navigate("/login");
     };
+    useEffect(() => {
+        document.title = 'Dashboard - Kho VLXD  ';
+    }, []);
     return (
         <div>
-            <h1>Staff Dashboard</h1>
+            <h1>Dashboard - Kho VLXD</h1>
             <button onClick={handleLogout}>Logout</button>
         </div>
     );
