@@ -1,12 +1,12 @@
 import { Modal, Table, Tag, Typography, Descriptions, Divider, Space } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import type { Export, ExportDetail, ExportStatus } from '../../types/Admin/export';
+import type { Export, ExportDetail, ExportStatus } from '../../../types/Admin/export';
 
 const { Text, Title } = Typography;
 
 const STATUS_CONFIG: Record<ExportStatus, { color: string; label: string }> = {
-    pending:   { color: 'orange',  label: 'Chờ xử lý' },
-    approved:  { color: 'blue',    label: 'Đã duyệt' },
+    pending: { color: 'orange', label: 'Chờ xử lý' },
+    approved: { color: 'blue', label: 'Đã duyệt' },
     completed: { color: 'success', label: 'Hoàn thành' },
     cancelled: { color: 'default', label: 'Đã hủy' },
 };

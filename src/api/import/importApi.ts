@@ -24,4 +24,15 @@ export const importApi = {
 
     delete: (id: number) =>
         axiosClient.delete<{ message: string }>(`/imports/${id}`),
+
+    importExcel: (file: File) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        return axiosClient.post<{ message: string }>('/imports/excel', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
+    },
+
+    downloadTemplate: () =>
+        axiosClient.get('/imports/excel/template', { responseType: 'blob' }),
 };

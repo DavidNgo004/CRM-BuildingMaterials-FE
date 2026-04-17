@@ -85,6 +85,19 @@ export const useImport = () => {
         }
     };
 
+    const importExcel = async (file: File): Promise<boolean> => {
+        try {
+            const res = await importApi.importExcel(file);
+            message.success(res.data?.message || 'Import Excel thành công!');
+            await fetchImports({ per_page: 9999 });
+            return true;
+        } catch (err: any) {
+            const errMsg = err.response?.data?.message || 'Import thất bại. Vui lòng kiểm tra lại file.';
+            message.error(errMsg);
+            return false;
+        }
+    };
+
     return {
         imports,
         loading,
@@ -95,5 +108,6 @@ export const useImport = () => {
         updateImport,
         changeStatus,
         deleteImport,
+        importExcel,
     };
 };

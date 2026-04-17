@@ -10,7 +10,7 @@ import {
     CloseCircleOutlined,
 } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
-import type { Supplier } from '../../types/Admin/supplier';
+import type { Supplier } from '../../../types/Admin/supplier';
 
 const { Text } = Typography;
 

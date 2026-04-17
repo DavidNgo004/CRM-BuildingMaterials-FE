@@ -15,8 +15,8 @@ import {
 import { useAuth } from '../../store/authContext';
 import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../../components/dashboard/DashboardLayout';
-import SupplierTable from '../../components/supplier/supplierTable';
-import SupplierModal from '../../components/supplier/SupplierModal';
+import SupplierTable from '../../components/admin/supplier/supplierTable';
+import SupplierModal from '../../components/admin/supplier/SupplierModal';
 import { useSupplier } from '../../hooks/supplier/useSupplier';
 import type { Supplier, CreateSupplierRequest, UpdateSupplierRequest } from '../../types/Admin/supplier';
 import '../../styles/auth.css';

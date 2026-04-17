@@ -8,9 +8,9 @@ import {
     PlusOutlined, DeleteOutlined, RobotOutlined, BulbOutlined, ArrowDownOutlined,
 } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
-import axiosClient from '../../api/axiosClient';
-import { productApi } from '../../api/product/productApi';
-import type { StoreImportRequest, StoreImportDetailRequest, AISuggestion } from '../../types/Admin/import';
+import axiosClient from '../../../api/axiosClient';
+import { productApi } from '../../../api/product/productApi';
+import type { StoreImportRequest, StoreImportDetailRequest, AISuggestion } from '../../../types/Admin/import';
 
 const { Text, Title } = Typography;
 
@@ -33,7 +33,7 @@ interface FormLine extends StoreImportDetailRequest {
 interface Props {
     open: boolean;
     loading: boolean;
-    editingImport?: import('../../types/Admin/import').Import | null;
+    editingImport?: import('../../../types/Admin/import').Import | null;
     onSubmit: (data: StoreImportRequest) => Promise<any> | void;
     onClose: () => void;
 }

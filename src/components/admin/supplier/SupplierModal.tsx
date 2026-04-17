@@ -1,5 +1,5 @@
 import { Modal, Form, Input, Button, Select } from 'antd';
-import type { Supplier, CreateSupplierRequest, UpdateSupplierRequest } from '../../types/Admin/supplier';
+import type { Supplier, CreateSupplierRequest, UpdateSupplierRequest } from '../../../types/Admin/supplier';
 
 interface Props {
   open: boolean;

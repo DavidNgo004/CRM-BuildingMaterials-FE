@@ -5,30 +5,18 @@ import {
     CloseCircleOutlined,
     DeleteOutlined,
     CheckOutlined,
-    EditOutlined,
 } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
-import type { Import, ImportStatus } from '../../types/Admin/import';
+import type { Export, ExportStatus } from '../../../types/Admin/export';
 
 const { Text } = Typography;
 
-const STATUS_CONFIG: Record<ImportStatus, { color: string; label: string }> = {
-    pending: { color: 'orange', label: 'Chờ duyệt' },
+const STATUS_CONFIG: Record<ExportStatus, { color: string; label: string }> = {
+    pending: { color: 'orange', label: 'Chờ xử lý' },
     approved: { color: 'blue', label: 'Đã duyệt' },
     completed: { color: 'success', label: 'Hoàn thành' },
     cancelled: { color: 'default', label: 'Đã hủy' },
 };
-
-interface Props {
-    imports: Import[];
-    loading: boolean;
-    onView: (record: Import) => void;
-    onEdit: (record: Import) => void;
-    onApprove: (id: number) => Promise<any> | void;
-    onComplete: (id: number) => Promise<any> | void;
-    onCancel: (id: number) => Promise<any> | void;
-    onDelete: (id: number) => Promise<any> | void;
-}
 
 const formatVnd = (val: number | string) => {
     const num = typeof val === 'number' ? val : Number(val);
@@ -36,34 +24,52 @@ const formatVnd = (val: number | string) => {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(num);
 };
 
-export default function ImportTable({
-    imports, loading, onView, onEdit, onApprove, onComplete, onCancel, onDelete,
+interface Props {
+    exports: Export[];
+    loading: boolean;
+    onView: (record: Export) => void;
+    onApprove: (id: number) => Promise<any> | void;
+    onComplete: (id: number) => Promise<any> | void;
+    onCancel: (id: number) => Promise<any> | void;
+    onDelete: (id: number) => Promise<any> | void;
+}
+
+export default function ExportTable({
+    exports, loading, onView, onApprove, onComplete, onCancel, onDelete,
 }: Props) {
-    const columns: ColumnsType<Import> = [
+    const columns: ColumnsType<Export> = [
         {
             title: 'Mã phiếu',
             dataIndex: 'code',
             key: 'code',
-            width: 130,
-            render: (code: string) => <Tag color="geekblue">{code}</Tag>,
+            width: 140,
+            render: (code: string) => <Tag color="cyan">{code}</Tag>,
         },
         {
-            title: 'Người lập',
-            dataIndex: ['user', 'name'],
-            key: 'user',
-            render: (_: any, record: Import) => (
+            title: 'Khách hàng',
+            key: 'customer',
+            render: (_: any, record: Export) => (
                 <Space direction="vertical" size={0}>
-                    <Text strong>{record.user?.name ?? '—'}</Text>
-                    <Text type="secondary" style={{ fontSize: 12 }}>{record.user?.email ?? ''}</Text>
+                    <Text strong>{record.customer?.name ?? '—'}</Text>
+                    <Text type="secondary" style={{ fontSize: 12 }}>
+                        {record.customer?.phone ?? record.customer?.email ?? ''}
+                    </Text>
                 </Space>
+            ),
+        },
+        {
+            title: 'Nhân viên',
+            key: 'user',
+            render: (_: any, record: Export) => (
+                <Text>{record.user?.name ?? '—'}</Text>
             ),
         },
         {
             title: 'Số SP',
             key: 'num_details',
-            width: 100,
+            width: 90,
             align: 'center',
-            render: (_: any, record: Import) => (
+            render: (_: any, record: Export) => (
                 <Tag>{record.details?.length ?? 0} SP</Tag>
             ),
         },
@@ -91,7 +97,7 @@ export default function ImportTable({
             key: 'grand_total',
             align: 'right',
             render: (val: number) => (
-                <Text strong style={{ color: '#6366f1' }}>{formatVnd(val)}</Text>
+                <Text strong style={{ color: '#0ea5e9' }}>{formatVnd(val)}</Text>
             ),
         },
         {
@@ -100,13 +106,13 @@ export default function ImportTable({
             key: 'status',
             width: 120,
             filters: [
-                { text: 'Chờ duyệt', value: 'pending' },
+                { text: 'Chờ xử lý', value: 'pending' },
                 { text: 'Đã duyệt', value: 'approved' },
                 { text: 'Hoàn thành', value: 'completed' },
                 { text: 'Đã hủy', value: 'cancelled' },
             ],
             onFilter: (value, record) => record.status === value,
-            render: (status: ImportStatus) => {
+            render: (status: ExportStatus) => {
                 const cfg = STATUS_CONFIG[status] ?? { color: 'default', label: status };
                 return <Tag color={cfg.color}>{cfg.label}</Tag>;
             },
@@ -115,16 +121,17 @@ export default function ImportTable({
             title: 'Ngày tạo',
             dataIndex: 'created_at',
             key: 'created_at',
-            width: 170,
-            render: (val: string) =>
-                new Date(val).toLocaleString('vi-VN'),
+            width: 160,
+            sorter: (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
+            defaultSortOrder: 'descend',
+            render: (val: string) => new Date(val).toLocaleString('vi-VN'),
         },
         {
             title: 'Thao tác',
             key: 'actions',
             width: 160,
             align: 'center',
-            render: (_: any, record: Import) => {
+            render: (_: any, record: Export) => {
                 const isPending = record.status === 'pending';
                 const isApproved = record.status === 'approved';
                 const isDone = record.status === 'completed' || record.status === 'cancelled';
@@ -141,24 +148,12 @@ export default function ImportTable({
                             />
                         </Tooltip>
 
-                        {/* Chỉnh sửa (chỉ pending) */}
+                        {/* Duyệt đơn */}
                         {isPending && (
-                            <Tooltip title="Chỉnh sửa phiếu">
-                                <Button
-                                    type="text"
-                                    icon={<EditOutlined />}
-                                    onClick={() => onEdit(record)}
-                                    style={{ color: '#0ea5e9' }}
-                                />
-                            </Tooltip>
-                        )}
-
-                        {/* Duyệt phiếu */}
-                        {isPending && (
-                            <Tooltip title="Duyệt phiếu">
+                            <Tooltip title="Duyệt đơn xuất">
                                 <Popconfirm
-                                    title="Duyệt phiếu nhập?"
-                                    description="Hệ thống sẽ gửi email đặt hàng đến nhà cung cấp."
+                                    title="Duyệt đơn xuất kho?"
+                                    description="Tồn kho sẽ bị trừ ngay khi duyệt. Hệ thống sẽ gửi email xác nhận đến khách hàng."
                                     onConfirm={() => onApprove(record.id)}
                                     okText="Duyệt"
                                     cancelText="Hủy"
@@ -174,10 +169,10 @@ export default function ImportTable({
 
                         {/* Hoàn thành */}
                         {isApproved && (
-                            <Tooltip title="Xác nhận hàng đã về">
+                            <Tooltip title="Xác nhận giao hàng thành công">
                                 <Popconfirm
-                                    title="Xác nhận hàng đã về kho?"
-                                    description="Tồn kho sẽ được cập nhật tự động."
+                                    title="Xác nhận đơn hàng đã giao?"
+                                    description="Đơn sẽ chuyển sang trạng thái Hoàn thành."
                                     onConfirm={() => onComplete(record.id)}
                                     okText="Xác nhận"
                                     cancelText="Hủy"
@@ -191,13 +186,13 @@ export default function ImportTable({
                             </Tooltip>
                         )}
 
-                        {/* Hủy phiếu */}
+                        {/* Hủy đơn */}
                         {!isDone && (
-                            <Tooltip title="Hủy phiếu">
+                            <Tooltip title="Hủy đơn xuất">
                                 <Popconfirm
-                                    title="Hủy phiếu nhập?"
+                                    title="Hủy đơn xuất kho?"
                                     onConfirm={() => onCancel(record.id)}
-                                    okText="Hủy phiếu"
+                                    okText="Hủy đơn"
                                     cancelText="Không"
                                     okButtonProps={{ danger: true }}
                                 >
@@ -214,7 +209,7 @@ export default function ImportTable({
                         {isPending && (
                             <Tooltip title="Xóa phiếu">
                                 <Popconfirm
-                                    title="Xóa phiếu nhập?"
+                                    title="Xóa phiếu xuất?"
                                     description="Hành động này không thể hoàn tác."
                                     onConfirm={() => onDelete(record.id)}
                                     okText="Xóa"
@@ -234,11 +229,11 @@ export default function ImportTable({
     return (
         <Table
             columns={columns}
-            dataSource={imports}
+            dataSource={exports}
             loading={loading}
             rowKey="id"
-            pagination={{ pageSize: 10, showTotal: (total) => `Tổng ${total} phiếu` }}
-            scroll={{ x: 1100 }}
+            pagination={{ showTotal: (total) => `Tổng ${total} phiếu` }}
+            scroll={{ x: 1200 }}
             rowClassName={(record) =>
                 record.status === 'cancelled' ? 'ant-table-row-cancelled' : ''
             }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {
     Card, Button, Typography, Space, Alert, Row, Col,
-    Statistic, Input, Tag, Tabs,
+    Statistic, Input, Tag, Tabs, message,
 } from 'antd';
 import {
     PlusOutlined,
@@ -10,17 +10,20 @@ import {
     ClockCircleOutlined,
     CloseCircleOutlined,
     FileTextOutlined,
+    FileExcelOutlined,
+    DollarOutlined,
 } from '@ant-design/icons';
 import { useAuth } from '../../store/authContext';
 import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../../components/dashboard/DashboardLayout';
-import ImportTable from '../../components/import/ImportTable';
-import ImportDetailModal from '../../components/import/ImportDetailModal';
-import ImportFormModal from '../../components/import/ImportFormModal';
+import ImportTable from '../../components/admin/import/ImportTable';
+import ImportDetailModal from '../../components/admin/import/ImportDetailModal';
+import ImportFormModal from '../../components/admin/import/ImportFormModal';
+import ImportExcelModal from '../../components/admin/import/ImportExcelModal';
 import { useImport } from '../../hooks/import/useImport';
+import { importApi } from '../../api/import/importApi';
 import type { Import, ImportStatus, StoreImportRequest } from '../../types/Admin/import';
 import '../../styles/auth.css';
-import { DollarOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
 
@@ -28,7 +31,7 @@ export default function ImportPage() {
     useEffect(() => {
         document.title = 'Quản lý nhập kho';
     })
-    const { imports, loading, error, fetchImports, createImport, updateImport, changeStatus, deleteImport } = useImport();
+    const { imports, loading, error, fetchImports, createImport, updateImport, changeStatus, deleteImport, importExcel } = useImport();
     const { user, logout } = useAuth();
     const navigate = useNavigate();
 
@@ -41,6 +44,8 @@ export default function ImportPage() {
     const [editingImport, setEditingImport] = useState<Import | null>(null);
     const [detailOpen, setDetailOpen] = useState(false);
     const [selectedImport, setSelectedImport] = useState<Import | null>(null);
+    const [excelOpen, setExcelOpen] = useState(false);
+    const [excelLoading, setExcelLoading] = useState(false);
 
     useEffect(() => {
         fetchImports({ per_page: 9999 });
@@ -108,6 +113,27 @@ export default function ImportPage() {
     const handleCancel = (id: number) => changeStatus(id, 'cancelled');
     const handleDelete = (id: number) => deleteImport(id);
 
+    const handleExcelSubmit = async (file: File) => {
+        setExcelLoading(true);
+        const success = await importExcel(file);
+        setExcelLoading(false);
+        return success;
+    };
+
+    const handleDownloadTemplate = async () => {
+        try {
+            const res = await importApi.downloadTemplate();
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'mau_nhap_kho.xlsx';
+            a.click();
+            window.URL.revokeObjectURL(url);
+        } catch {
+            message.error('Không thể tải file mẫu');
+        }
+    };
+
     const tabItems = [
         { key: 'all', label: <><FileTextOutlined />  Tất cả <Tag>{imports.length}</Tag></> },
         { key: 'pending', label: <><ClockCircleOutlined style={{ color: '#f59e0b' }} /> Chờ duyệt <Tag color="orange">{countByStatus('pending')}</Tag></> },
@@ -136,6 +162,20 @@ export default function ImportPage() {
                             onChange={e => setSearchText(e.target.value)}
                             style={{ width: 240 }}
                         />
+                        <Button
+                            icon={<FileExcelOutlined />}
+                            onClick={() => setExcelOpen(true)}
+                            style={{
+                                background: 'linear-gradient(135deg, #059669, #10b981)',
+                                border: 'none',
+                                borderRadius: 8,
+                                fontWeight: 600,
+                                color: '#fff',
+                                boxShadow: '0 2px 8px rgba(16,185,129,0.35)',
+                            }}
+                        >
+                            Import Excel
+                        </Button>
                         <Button
                             type="primary"
                             icon={<PlusOutlined />}
@@ -243,6 +283,14 @@ export default function ImportPage() {
                     editingImport={editingImport}
                     onSubmit={handleFormSubmit}
                     onClose={handleFormClose}
+                />
+
+                <ImportExcelModal
+                    open={excelOpen}
+                    loading={excelLoading}
+                    onClose={() => setExcelOpen(false)}
+                    onSubmit={handleExcelSubmit}
+                    onDownloadTemplate={handleDownloadTemplate}
                 />
             </div>
         </DashboardLayout>
