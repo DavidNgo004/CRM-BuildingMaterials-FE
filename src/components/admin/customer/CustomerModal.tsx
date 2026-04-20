@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Modal, Form, Input, Select, Switch, Row, Col } from 'antd';
-import type { Customer, CreateCustomerRequest, UpdateCustomerRequest } from '../../types/Admin/customer';
+import type { Customer, CreateCustomerRequest, UpdateCustomerRequest } from '../../../types/Admin/customer';
 
 interface Props {
   open: boolean;

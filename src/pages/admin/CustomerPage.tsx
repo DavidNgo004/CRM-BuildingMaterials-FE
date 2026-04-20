@@ -18,8 +18,8 @@ import {
 import { useAuth } from '../../store/authContext';
 import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../../components/dashboard/DashboardLayout';
-import CustomerTable from '../../components/customer/CustomerTable';
-import CustomerModal from '../../components/customer/CustomerModal';
+import CustomerTable from '../../components/admin/customer/CustomerTable';
+import CustomerModal from '../../components/admin/customer/CustomerModal';
 import { useCustomer } from '../../hooks/customer/useCustomer';
 import type { Customer, CreateCustomerRequest, UpdateCustomerRequest } from '../../types/Admin/customer';
 import '../../styles/auth.css';

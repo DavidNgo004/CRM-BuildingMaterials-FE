@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Modal, Form, Input, InputNumber, Select, Switch, Row, Col, Divider } from 'antd';
-import type { Product, CreateProductRequest, UpdateProductRequest } from '../../types/product';
-import { useSupplier } from '../../hooks/supplier/useSupplier';
+import type { Product, CreateProductRequest, UpdateProductRequest } from '../../../types/product';
+import { useSupplier } from '../../../hooks/supplier/useSupplier';
 
 interface ProductModalProps {
     open: boolean;

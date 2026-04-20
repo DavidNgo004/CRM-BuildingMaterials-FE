@@ -1,6 +1,6 @@
 import { Table, Tag, Space, Button, Popconfirm, Tooltip } from 'antd';
 import { EditOutlined, DeleteOutlined, ShoppingOutlined } from '@ant-design/icons';
-import type { Product } from '../../types/product';
+import type { Product } from '../../../types/product';
 
 interface ProductTableProps {
     products: Product[];

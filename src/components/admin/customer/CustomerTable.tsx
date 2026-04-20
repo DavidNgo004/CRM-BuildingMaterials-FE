@@ -7,7 +7,7 @@ import {
   EnvironmentOutlined,
 } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
-import type { Customer } from '../../types/Admin/customer';
+import type { Customer } from '../../../types/Admin/customer';
 
 const { Text } = Typography;
 

@@ -18,8 +18,8 @@ import {
 import { useAuth } from '../../store/authContext';
 import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../../components/dashboard/DashboardLayout';
-import ProductTable from '../../components/product/ProductTable';
-import ProductModal from '../../components/product/ProductModal';
+import ProductTable from '../../components/admin/product/ProductTable';
+import ProductModal from '../../components/admin/product/ProductModal';
 import { useProduct } from '../../hooks/product/useProduct';
 import type { Product, CreateProductRequest, UpdateProductRequest } from '../../types/product';
 import '../../styles/auth.css';

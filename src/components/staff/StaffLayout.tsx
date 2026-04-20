@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import favicon from "../../assets/favicon.png";
 import styles from "./StaffLayout.module.css";
+import { HomeOutlined, LogoutOutlined, UserOutlined, ExportOutlined, ImportOutlined, RobotOutlined, StockOutlined, ProductOutlined } from '@ant-design/icons';
 
 interface StaffLayoutProps {
   children: React.ReactNode;
@@ -9,13 +10,13 @@ interface StaffLayoutProps {
 }
 
 const NAV_ITEMS = [
-  { label: "Dashboard", icon: "🏠", path: "/staff/dashboard" },
-  { label: "Gán lý hàng phẩm", icon: "📦", path: "/staff/products" },
-  { label: "Tồn Kho", icon: "🗄️", path: "/staff/inventory" },
-  { label: "Nhập Kho", icon: "📥", path: "/staff/import" },
-  { label: "Xuất Kho", icon: "📤", path: "/staff/export" },
-  { label: "AI Gợi Ý Nhập Kho", icon: "🤖", path: "/staff/ai-suggestions" },
-  { label: "Thông tin cá nhân", icon: "👤", path: "/staff/profile" },
+  { label: "Dashboard", icon: <HomeOutlined />, path: "/staff/dashboard" },
+  { label: "Quản lý sản  phẩm", icon: <ProductOutlined />, path: "/staff/products" },
+  { label: "Tồn Kho", icon: <StockOutlined />, path: "/staff/inventory" },
+  { label: "Nhập Kho", icon: <ImportOutlined />, path: "/staff/import" },
+  { label: "Xuất Kho", icon: <ExportOutlined />, path: "/staff/export" },
+  { label: "AI Gợi Ý Nhập Kho", icon: <RobotOutlined />, path: "/staff/ai-suggestions" },
+  { label: "Thông tin cá nhân", icon: <UserOutlined />, path: "/staff/profile" },
 ];
 
 export default function StaffLayout({ children, onLogout }: StaffLayoutProps) {
@@ -59,7 +60,7 @@ export default function StaffLayout({ children, onLogout }: StaffLayoutProps) {
 
         {/* Logout */}
         <button className={styles.logoutBtn} onClick={onLogout} title={collapsed ? "Logout" : undefined}>
-          <span className={styles.navIcon}>🚪</span>
+          <span className={styles.navIcon}><LogoutOutlined /></span>
           {!collapsed && <span className={styles.navLabel}>Logout</span>}
         </button>
       </aside>

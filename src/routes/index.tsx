@@ -16,6 +16,8 @@ const ProfilePage = lazy(() => import('../pages/auth/ProfilePage'));
 const StaffManagementPage = lazy(() => import('../pages/admin/StaffManagementPage'));
 const AdminDashboard = lazy(() => import('../pages/admin/Dashboard'));
 const StaffDashboard = lazy(() => import('../pages/staff/StaffDashboard'));
+const StaffImportPage = lazy(() => import('../pages/staff/StaffImportPage'));
+const StaffProfilePage = lazy(() => import('../pages/staff/StaffProfilePage'));
 
 // ─── Loading fallback ─────────────────────────────────────────────────────────
 
@@ -106,6 +108,24 @@ export default function AppRoutes() {
             element={
               <ProtectedRoute role="warehouse_staff" redirectTo="/login">
                 <StaffDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/staff/import"
+            element={
+              <ProtectedRoute role="warehouse_staff" redirectTo="/login">
+                <StaffImportPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/staff/profile"
+            element={
+              <ProtectedRoute role="warehouse_staff" redirectTo="/login">
+                <StaffProfilePage />
               </ProtectedRoute>
             }
           />

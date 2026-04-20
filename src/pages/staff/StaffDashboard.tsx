@@ -1,9 +1,11 @@
 import { useEffect } from "react";
+import type { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../store/authContext";
 import { useStaffDashboard } from "../../hooks/useStaffDashboard";
 import StaffLayout from "../../components/staff/StaffLayout";
 import styles from "./StaffDashboard.module.css";
+import { BarChartOutlined, WarningOutlined, ThunderboltOutlined, ProductOutlined, ShoppingCartOutlined, ImportOutlined, StockOutlined } from "@ant-design/icons";
 
 // ── Mini Chart Component ──────────────────────────────────────────────────────
 function MiniSparkline({ data }: { data: { date: string; quantity: number }[] }) {
@@ -58,7 +60,7 @@ function MiniSparkline({ data }: { data: { date: string; quantity: number }[] })
 function KpiCard({
   label, value, color, icon, isLoading,
 }: {
-  label: string; value: number; color: string; icon: string; isLoading: boolean;
+  label: string; value: number; color: string; icon: ReactNode; isLoading: boolean;
 }) {
   return (
     <div className={styles.kpiCard} style={{ background: color }}>
@@ -166,28 +168,28 @@ export default function StaffDashboard() {
             label="Sản Phẩm"
             value={kpi?.san_pham_nhap_hom_nay ?? 0}
             color="linear-gradient(135deg, #6366f1, #4f46e5)"
-            icon="📦"
+            icon={<ProductOutlined />}
             isLoading={isLoading}
           />
           <KpiCard
             label="Đặt Hàng Hàng"
             value={kpi?.dat_hang_hom_nay ?? 0}
             color="linear-gradient(135deg, #f59e0b, #d97706)"
-            icon="🛒"
+            icon={<ShoppingCartOutlined />}
             isLoading={isLoading}
           />
           <KpiCard
             label="Nhập Từ Hôm Nay"
             value={kpi?.nhap_them_hom_nay ?? 0}
             color="linear-gradient(135deg, #10b981, #059669)"
-            icon="📥"
+            icon={<ImportOutlined />}
             isLoading={isLoading}
           />
           <KpiCard
             label="Nhập Hôm Nay"
             value={kpi?.nhap_tu_ngay_nay ?? 0}
             color="linear-gradient(135deg, #ec4899, #db2777)"
-            icon="📊"
+            icon={<StockOutlined />}
             isLoading={isLoading}
           />
         </section>
@@ -198,7 +200,7 @@ export default function StaffDashboard() {
           {/* ── Left: Stock Chart ── */}
           <div className={styles.card}>
             <div className={styles.cardHeader}>
-              <h2 className={styles.cardTitle}>📈 Biểu Đồ Nhập Kho Theo Ngày</h2>
+              <h2 className={styles.cardTitle}><BarChartOutlined style={{ color: "#f59e0b" }} /> Biểu Đồ Nhập Kho Theo Ngày</h2>
               <span className={styles.cardTag}>10 ngày gần nhất</span>
             </div>
 
@@ -223,7 +225,7 @@ export default function StaffDashboard() {
           {/* ── Right: Activity Summary ── */}
           <div className={styles.card}>
             <div className={styles.cardHeader}>
-              <h2 className={styles.cardTitle}>⚡ Hoạt Động Kho</h2>
+              <h2 className={styles.cardTitle}><ThunderboltOutlined style={{ color: "#f59e0b" }} /> Hoạt Động Kho</h2>
             </div>
             <div className={styles.activityList}>
               {isLoading ? (
@@ -284,7 +286,7 @@ export default function StaffDashboard() {
         {/* ── Low Stock Table ── */}
         <div className={styles.card}>
           <div className={styles.cardHeader}>
-            <h2 className={styles.cardTitle}>⚠️ Sản Phẩm Sắp Hết Hàng</h2>
+            <h2 className={styles.cardTitle}><WarningOutlined style={{ color: "#f59e0b" }} /> Sản Phẩm Sắp Hết Hàng</h2>
             <button
               className={styles.viewAllBtn}
               onClick={() => navigate("/staff/inventory")}
