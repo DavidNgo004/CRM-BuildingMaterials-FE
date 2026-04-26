@@ -282,3 +282,99 @@
   padding: 24px;
   overflow-y: auto;
 }
+
+/* ── Mobile Overlay ─────────────────────────────────────────────────────────── */
+.sidebarOverlay {
+  display: none;
+}
+
+/* ── Responsive: Tablet (< 992px) ───────────────────────────────────────────── */
+@media (max-width: 991px) {
+  .content {
+    padding: 16px;
+  }
+}
+
+/* ── Responsive: Mobile (< 768px) ───────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar.sidebarMobileOpen {
+    transform: translateX(0);
+  }
+
+  .sidebarCollapsed {
+    width: var(--sidebar-width);
+    transform: translateX(-100%);
+  }
+
+  .sidebarCollapsed.sidebarMobileOpen {
+    transform: translateX(0);
+  }
+
+  .sidebarOverlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+
+  .sidebarOverlay.sidebarOverlayVisible {
+    display: block;
+  }
+
+  .main {
+    margin-left: 0 !important;
+  }
+
+  .content {
+    padding: 12px;
+  }
+
+  .topbar {
+    padding: 0 12px;
+  }
+
+  .pageTitle {
+    font-size: 14px;
+  }
+
+  .userName {
+    display: none;
+  }
+}
+
+/* ── Responsive: Small Mobile (< 480px) ─────────────────────────────────────── */
+@media (max-width: 479px) {
+  .content {
+    padding: 8px;
+  }
+
+  .topbar {
+    padding: 0 8px;
+  }
+
+  .collapseBtn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .avatarCircle {
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+  }
+}

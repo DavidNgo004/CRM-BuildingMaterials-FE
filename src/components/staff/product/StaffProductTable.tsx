@@ -1,15 +1,14 @@
-import { Table, Tag, Space, Button, Popconfirm, Tooltip, Avatar } from 'antd';
-import { EditOutlined, DeleteOutlined, ShoppingOutlined, UserOutlined } from '@ant-design/icons';
+import { Table, Tag, Space, Button, Tooltip, Avatar } from 'antd';
+import { EditOutlined, ShoppingOutlined, UserOutlined } from '@ant-design/icons';
 import type { Product } from '../../../types/product';
 
-interface ProductTableProps {
+interface StaffProductTableProps {
     products: Product[];
     loading: boolean;
     onEdit: (product: Product) => void;
-    onDelete: (id: number) => void;
 }
 
-export default function ProductTable({ products, loading, onEdit, onDelete }: ProductTableProps) {
+export default function StaffProductTable({ products, loading, onEdit }: StaffProductTableProps) {
     const columns = [
         {
             title: 'Sản phẩm',
@@ -104,7 +103,7 @@ export default function ProductTable({ products, loading, onEdit, onDelete }: Pr
         {
             title: 'Thao tác',
             key: 'action',
-            width: 120,
+            width: 100,
             render: (_: any, record: Product) => (
                 <Space size="middle">
                     <Tooltip title="Chỉnh sửa">
@@ -114,21 +113,7 @@ export default function ProductTable({ products, loading, onEdit, onDelete }: Pr
                             onClick={() => onEdit(record)}
                         />
                     </Tooltip>
-                    <Tooltip title="Xóa">
-                        <Popconfirm
-                            title="Xóa sản phẩm"
-                            description="Bạn có chắc chắn muốn xóa sản phẩm này?"
-                            onConfirm={() => onDelete(record.id)}
-                            okText="Xóa"
-                            cancelText="Hủy"
-                            okButtonProps={{ danger: true }}
-                        >
-                            <Button 
-                                type="text" 
-                                icon={<DeleteOutlined style={{ color: '#ff4d4f' }} />} 
-                            />
-                        </Popconfirm>
-                    </Tooltip>
+                    {/* Không có nút Xóa */}
                 </Space>
             ),
         },

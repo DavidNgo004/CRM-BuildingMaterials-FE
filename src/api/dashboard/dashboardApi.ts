@@ -51,3 +51,17 @@ export async function fetchMiniReports(params: PeriodParams = {}): Promise<Dashb
   const { data } = await axiosClient.get<DashboardMiniReports>(`${BASE}/mini-reports`, { params });
   return data;
 }
+
+export interface DashboardSummary {
+  kpi: DashboardKpi;
+  charts: DashboardCharts;
+  activities: Activity[];
+  alerts: DashboardAlerts;
+  miniReports: DashboardMiniReports;
+}
+
+/** Lấy tất cả dữ liệu dashboard trong 1 request duy nhất */
+export async function fetchSummary(params: PeriodParams = {}): Promise<DashboardSummary> {
+  const { data } = await axiosClient.get<DashboardSummary>(`${BASE}/summary`, { params });
+  return data;
+}

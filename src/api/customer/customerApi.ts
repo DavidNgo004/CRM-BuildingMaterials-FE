@@ -2,7 +2,7 @@ import axiosClient from "../axiosClient";
 import type { Customer, CreateCustomerRequest, UpdateCustomerRequest } from "../../types/Admin/customer";
 
 export const customerApi = {
-    getAll: (params?: { search?: string }) => {
+    getAll: (params?: { search?: string; per_page?: number }) => {
         return axiosClient.get<any>("/customers", { params });
     },
 

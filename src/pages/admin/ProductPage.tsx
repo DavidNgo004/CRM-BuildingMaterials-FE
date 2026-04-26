@@ -9,11 +9,16 @@ import {
     Row,
     Col,
     Input,
+    Upload,
+    Modal,
 } from 'antd';
+import type { UploadProps } from 'antd';
 import {
     PlusOutlined,
     ShoppingOutlined,
     WarningOutlined,
+    UploadOutlined,
+    DownloadOutlined,
 } from '@ant-design/icons';
 import { useAuth } from '../../store/authContext';
 import { useNavigate } from 'react-router-dom';
@@ -30,11 +35,12 @@ export default function ProductPage() {
     useEffect(() => {
         document.title = 'Quản lý sản phẩm';
     }, []);
-    const { products, loading, error, fetchProducts, createProduct, updateProduct, deleteProduct } = useProduct();
+    const { products, loading, error, fetchProducts, createProduct, updateProduct, deleteProduct, exportExcelProducts, importExcelProducts, downloadExcelTemplateProducts } = useProduct();
     const { user, logout } = useAuth();
     const navigate = useNavigate();
 
     const [modalOpen, setModalOpen] = useState(false);
+    const [importModalOpen, setImportModalOpen] = useState(false);
     const [editingProduct, setEditingProduct] = useState<Product | null>(null);
     const [modalLoading, setModalLoading] = useState(false);
     const [searchText, setSearchText] = useState('');
@@ -81,6 +87,18 @@ export default function ProductPage() {
         await deleteProduct(id);
     };
 
+    const uploadProps: UploadProps = {
+        name: 'file',
+        showUploadList: false,
+        beforeUpload: async (file) => {
+            const success = await importExcelProducts(file as File);
+            if (success) {
+                setImportModalOpen(false);
+            }
+            return false;
+        },
+    };
+
     // Tính toán thống kê
     const lowStockCount = products.filter(p => p.reorder_level !== null && p.stock <= p.reorder_level).length;
 
@@ -109,6 +127,20 @@ export default function ProductPage() {
                             onChange={(e) => setSearchText(e.target.value)}
                             style={{ width: 250 }}
                         />
+                        <Button
+                            icon={<UploadOutlined />}
+                            onClick={exportExcelProducts}
+                            style={{ borderRadius: 8, fontWeight: 500 }}
+                        >
+                            Xuất Excel
+                        </Button>
+                        <Button
+                            icon={<DownloadOutlined />}
+                            onClick={() => setImportModalOpen(true)}
+                            style={{ borderRadius: 8, fontWeight: 500 }}
+                        >
+                            Nhập Excel
+                        </Button>
                         <Button
                             type="primary"
                             icon={<PlusOutlined />}
@@ -164,7 +196,6 @@ export default function ProductPage() {
                     />
                 </Card>
 
-                {/* ── Modal ── */}
                 <ProductModal
                     open={modalOpen}
                     editingProduct={editingProduct}
@@ -172,6 +203,34 @@ export default function ProductPage() {
                     onSubmit={handleSubmit}
                     onClose={closeModal}
                 />
+
+                <Modal
+                    title="Nhập sản phẩm từ Excel"
+                    open={importModalOpen}
+                    onCancel={() => setImportModalOpen(false)}
+                    footer={null}
+                    destroyOnClose
+                >
+                    <div style={{ marginBottom: 16 }}>
+                        <Button
+                            icon={<DownloadOutlined />}
+                            onClick={downloadExcelTemplateProducts}
+                            style={{ color: '#10b981', borderColor: '#10b981' }}
+                        >
+                            Tải file mẫu
+                        </Button>
+                        <Text type="secondary" style={{ marginLeft: 8 }}>
+                            Vui lòng tải file mẫu và điền dữ liệu trước khi tải lên.
+                        </Text>
+                    </div>
+                    <Upload.Dragger {...uploadProps} accept=".xlsx,.xls,.csv">
+                        <p className="ant-upload-drag-icon">
+                            <UploadOutlined />
+                        </p>
+                        <p className="ant-upload-text">Kéo thả file vào đây hoặc nhấp để chọn file</p>
+                        <p className="ant-upload-hint">Hỗ trợ định dạng .xlsx, .xls, .csv</p>
+                    </Upload.Dragger>
+                </Modal>
             </div>
         </DashboardLayout>
     );

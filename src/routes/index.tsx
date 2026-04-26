@@ -18,6 +18,11 @@ const AdminDashboard = lazy(() => import('../pages/admin/Dashboard'));
 const StaffDashboard = lazy(() => import('../pages/staff/StaffDashboard'));
 const StaffImportPage = lazy(() => import('../pages/staff/StaffImportPage'));
 const StaffProfilePage = lazy(() => import('../pages/staff/StaffProfilePage'));
+const StaffProductPage = lazy(() => import('../pages/staff/StaffProductPage'));
+const StaffExportPage = lazy(() => import('../pages/staff/StaffExportPage'));
+const StaffInventoryPage = lazy(() => import('../pages/staff/StaffInventoryPage'));
+const StaffReportPage = lazy(() => import('../pages/staff/StaffReportPage'));
+const AdminReportPage = lazy(() => import('../pages/admin/ReportPage'));
 
 // ─── Loading fallback ─────────────────────────────────────────────────────────
 
@@ -131,6 +136,33 @@ export default function AppRoutes() {
           />
 
           <Route
+            path="/staff/products"
+            element={
+              <ProtectedRoute role="warehouse_staff" redirectTo="/login">
+                <StaffProductPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/staff/export"
+            element={
+              <ProtectedRoute role="warehouse_staff" redirectTo="/login">
+                <StaffExportPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/staff/inventory"
+            element={
+              <ProtectedRoute role="warehouse_staff" redirectTo="/login">
+                <StaffInventoryPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
             path="/admin/product-management"
             element={
               <ProtectedRoute role="admin" redirectTo="/admin/dashboard">
@@ -171,6 +203,24 @@ export default function AppRoutes() {
             element={
               <ProtectedRoute role="admin" redirectTo="/admin/dashboard">
                 <ExportPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/report-management"
+            element={
+              <ProtectedRoute role="admin" redirectTo="/admin/dashboard">
+                <AdminReportPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/staff/reports"
+            element={
+              <ProtectedRoute role="warehouse_staff" redirectTo="/login">
+                <StaffReportPage />
               </ProtectedRoute>
             }
           />

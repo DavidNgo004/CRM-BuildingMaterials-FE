@@ -48,3 +48,15 @@ export interface Export {
 export interface ChangeExportStatusRequest {
   status: ExportStatus;
 }
+
+export interface ExportDetailRequest {
+  product_id: number;
+  quantity: number;
+}
+
+export interface StoreExportRequest {
+  customer_id: number;
+  discount_amount: number;
+  note?: string;
+  details: ExportDetailRequest[];
+}

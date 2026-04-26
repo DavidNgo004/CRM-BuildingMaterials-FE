@@ -77,7 +77,7 @@ export default function DashboardLayout({
             <a href="/admin/product-management" className={`${styles.navLink} ${path.includes('/product-management') ? styles.navLinkActive : ''}`}>Sản phẩm</a>
             <a href="/admin/supplier-management" className={`${styles.navLink} ${path.includes('/supplier-management') ? styles.navLinkActive : ''}`}>Nhà cung cấp</a>
             <a href="/admin/customer-management" className={`${styles.navLink} ${path.includes('/customer-management') ? styles.navLinkActive : ''}`}>Khách hàng</a>
-            <a href="#" className={styles.navLink}>Báo cáo</a>
+            <a href="/admin/report-management" className={`${styles.navLink} ${path.includes('/report-management') ? styles.navLinkActive : ''}`}>Báo cáo</a>
           </nav>
         </div>
 

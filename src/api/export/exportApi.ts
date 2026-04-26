@@ -13,4 +13,7 @@ export const exportApi = {
 
     delete: (id: number) =>
         axiosClient.delete<{ message: string }>(`/exports/${id}`),
+
+    create: (data: any) =>
+        axiosClient.post<any>('/exports', data),
 };

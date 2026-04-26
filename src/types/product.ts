@@ -13,6 +13,8 @@ export interface Product {
     created_at?: string;
     updated_at?: string;
     supplier?: Supplier;
+    updated_by_user?: { id: number; name: string };
+    updated_by?: number;
 }
 
 export interface CreateProductRequest {

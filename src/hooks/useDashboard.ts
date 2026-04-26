@@ -7,21 +7,10 @@ import type {
   DashboardMiniReports,
   DashboardPeriod,
 } from '../types/Admin/dashboard';
-import {
-  fetchKpiCards,
-  fetchCharts,
-  fetchActivities,
-  fetchAlerts,
-  fetchMiniReports,
-} from '../api/dashboard/dashboardApi';
+import { fetchSummary } from '../api/dashboard/dashboardApi';
 
 // ─── useDashboard ─────────────────────────────────────────────────────────────
-// Custom hook tổng hợp — gọi parallel tất cả 5 dashboard endpoints.
-//
-// Cách dùng:
-//   const { kpi, charts, activities, alerts, miniReports, isLoading, refresh } = useDashboard(period);
-//
-// Khi period thay đổi, hook tự động fetch lại dữ liệu.
+// Custom hook tổng hợp — gọi api summary lấy tất cả dữ liệu dashboard 1 lần.
 
 interface UseDashboardReturn {
   kpi: DashboardKpi | null;
@@ -51,34 +40,21 @@ export function useDashboard(period: DashboardPeriod = 'this_month'): UseDashboa
     setIsLoading(true);
     setError(null);
 
-    const params = { period };
-
-    // Fetch tất cả 5 endpoints song song để tối ưu tốc độ
-    Promise.allSettled([
-      fetchKpiCards(params),
-      fetchCharts(params),
-      fetchActivities(15),
-      fetchAlerts(),
-      fetchMiniReports(params),
-    ]).then(([kpiRes, chartsRes, activitiesRes, alertsRes, miniRes]) => {
-      if (cancelled) return;
-
-      if (kpiRes.status === 'fulfilled') setKpi(kpiRes.value);
-      if (chartsRes.status === 'fulfilled') setCharts(chartsRes.value);
-      if (activitiesRes.status === 'fulfilled') setActivities(activitiesRes.value);
-      if (alertsRes.status === 'fulfilled') setAlerts(alertsRes.value);
-      if (miniRes.status === 'fulfilled') setMiniReports(miniRes.value);
-
-      // Báo lỗi nếu ít nhất 1 request thất bại
-      const failures = [kpiRes, chartsRes, activitiesRes, alertsRes, miniRes].filter(
-        (r) => r.status === 'rejected',
-      );
-      if (failures.length > 0) {
-        setError('Một số dữ liệu không tải được. Vui lòng thử lại.');
-      }
-
-      setIsLoading(false);
-    });
+    fetchSummary({ period })
+      .then((data) => {
+        if (cancelled) return;
+        setKpi(data.kpi);
+        setCharts(data.charts);
+        setActivities(data.activities);
+        setAlerts(data.alerts);
+        setMiniReports(data.miniReports);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setError('Không thể tải dữ liệu Dashboard. Vui lòng thử lại.');
+        setIsLoading(false);
+      });
 
     return () => { cancelled = true; };
   }, [period, tick]);

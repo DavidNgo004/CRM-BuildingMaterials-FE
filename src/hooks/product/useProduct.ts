@@ -12,7 +12,8 @@ export const useProduct = () => {
         setLoading(true);
         setError(null);
         try {
-            const res = await productApi.getAll(params);
+            const defaultParams = { per_page: 100000, ...params };
+            const res = await productApi.getAll(defaultParams);
             // Backend returns pagination object { current_page, data, ... }
             setProducts(res.data.data);
         } catch (err: any) {
@@ -62,6 +63,55 @@ export const useProduct = () => {
         }
     };
 
+    const exportExcelProducts = async () => {
+        try {
+            const res = await productApi.exportExcel();
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'products.xlsx');
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            message.success('Xuất file Excel thành công');
+        } catch (err: any) {
+            console.error(err);
+            message.error('Có lỗi xảy ra khi xuất file Excel');
+        }
+    };
+
+    const downloadExcelTemplateProducts = async () => {
+        try {
+            const res = await productApi.downloadTemplateExcel();
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'mau_nhap_san_pham.xlsx');
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            message.success('Tải file mẫu thành công');
+        } catch (err: any) {
+            console.error(err);
+            message.error('Có lỗi xảy ra khi tải file mẫu');
+        }
+    };
+
+    const importExcelProducts = async (file: File): Promise<boolean> => {
+        const formData = new FormData();
+        formData.append('file', file);
+        try {
+            await productApi.importExcel(formData);
+            message.success('Nhập file Excel thành công');
+            fetchProducts();
+            return true;
+        } catch (err: any) {
+            console.error(err);
+            message.error(err.response?.data?.message || 'Có lỗi xảy ra khi nhập file Excel');
+            return false;
+        }
+    };
+
     return {
         products,
         loading,
@@ -69,6 +119,9 @@ export const useProduct = () => {
         fetchProducts,
         createProduct,
         updateProduct,
-        deleteProduct
+        deleteProduct,
+        exportExcelProducts,
+        importExcelProducts,
+        downloadExcelTemplateProducts
     };
 };

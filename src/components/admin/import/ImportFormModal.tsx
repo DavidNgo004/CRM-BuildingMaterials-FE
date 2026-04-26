@@ -219,6 +219,7 @@ export default function ImportFormModal({ open, loading, editingImport, onSubmit
                     parser={v => (v ? Number(v.replace(/,/g, '')) : 0) as any}
                     addonAfter="₫"
                     onChange={val => updateLine(row._key, 'unit_price', val ?? 0)}
+                    disabled
                 />
             ),
         },
@@ -372,13 +373,13 @@ export default function ImportFormModal({ open, loading, editingImport, onSubmit
                             rows={2}
                             placeholder="Nhập ghi chú..."
                             style={{
-                                width: '100%',
+                                width: '90%',
                                 padding: '4px 11px',
                                 border: '1px solid #d9d9d9',
                                 borderRadius: 6,
                                 fontFamily: 'inherit',
                                 fontSize: 14,
-                                resize: 'vertical',
+                                resize: 'none',
                             }}
                         />
                     </Form.Item>

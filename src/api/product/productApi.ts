@@ -9,5 +9,13 @@ export const productApi = {
 
     update: (id: number, data: any) => axiosClient.put(`/products/${id}`, data),
 
-    delete: (id: number) => axiosClient.delete(`/products/${id}`)
+    delete: (id: number) => axiosClient.delete(`/products/${id}`),
+
+    exportExcel: () => axiosClient.get('/products/export/excel', { responseType: 'blob' }),
+
+    downloadTemplateExcel: () => axiosClient.get('/products/import/template', { responseType: 'blob' }),
+
+    importExcel: (data: FormData) => axiosClient.post('/products/import/excel', data, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    })
 };
