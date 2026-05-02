@@ -41,9 +41,7 @@
   color: var(--db-text-primary);
 }
 
-body {
-  width: 100%;
-}
+
 
 /* ── Shared Card ─────────────────────────────────────────────────── */
 .dbCard {

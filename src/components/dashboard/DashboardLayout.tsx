@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import type { DashboardPeriod } from "../../types/Admin/dashboard";
 import styles from "./DashboardLayout.module.css";
 import favicon from "../../assets/favicon.png";
 import { UserOutlined, LogoutOutlined } from "@ant-design/icons";
+import { useAuth } from "../../store/authContext";
 
 const PERIOD_OPTIONS: { label: string; value: DashboardPeriod }[] = [
   { label: "Hôm nay", value: "today" },
@@ -26,19 +27,32 @@ interface DashboardLayoutProps {
 export default function DashboardLayout({
   period,
   onPeriodChange,
-  userName = "Admin",
+  userName: propUserName,
   children,
   onRefresh,
   isLoading,
-  onLogout,
+  onLogout: propOnLogout,
   onProfileClick,
 }: DashboardLayoutProps) {
+
+  const { user, logout } = useAuth();
+  const userName = propUserName || user?.name || "Admin";
 
   const [openMenu, setOpenMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
   const path = location.pathname;
+
+  const handleLogout = async () => {
+    if (propOnLogout) {
+      await propOnLogout();
+    } else {
+      await logout();
+      navigate("/login");
+    }
+  };
+
 
   // click ngoài dropdown → auto close
   useEffect(() => {
@@ -56,48 +70,33 @@ export default function DashboardLayout({
     <div className={styles.root}>
       <header className={styles.topbar}>
         <div className={styles.topbarLeft}>
-          <a href="/admin/dashboard" className={styles.navLink}>
+          <Link to="/admin/dashboard" className={styles.navLink}>
             <div className={styles.logo}>
               <span className={styles.logoIcon}>
                 <img src={favicon} alt="logo" className={styles.logoImg} />
               </span>
               <span className={styles.logoText}>CRM VLXD</span>
             </div>
-          </a>
+          </Link>
 
           <nav className={styles.nav}>
-            <a href="/admin/dashboard" className={`${styles.navLink} ${path.includes('/dashboard') ? styles.navLinkActive : ''}`}>
+            <Link to="/admin/dashboard" className={`${styles.navLink} ${path === '/admin/dashboard' ? styles.navLinkActive : ''}`}>
               Dashboard
-            </a>
-            <a href="/admin/staff-management" className={`${styles.navLink} ${path.includes('/staff-management') ? styles.navLinkActive : ''}`}>
+            </Link>
+            <Link to="/admin/staff-management" className={`${styles.navLink} ${path.includes('/staff-management') ? styles.navLinkActive : ''}`}>
               Tài khoản
-            </a>
-            <a href="/admin/import-management" className={`${styles.navLink} ${path.includes('/import-management') ? styles.navLinkActive : ''}`}>Nhập Kho</a>
-            <a href="/admin/export-management" className={`${styles.navLink} ${path.includes('/export-management') ? styles.navLinkActive : ''}`}>Xuất Kho</a>
-            <a href="/admin/product-management" className={`${styles.navLink} ${path.includes('/product-management') ? styles.navLinkActive : ''}`}>Sản phẩm</a>
-            <a href="/admin/supplier-management" className={`${styles.navLink} ${path.includes('/supplier-management') ? styles.navLinkActive : ''}`}>Nhà cung cấp</a>
-            <a href="/admin/customer-management" className={`${styles.navLink} ${path.includes('/customer-management') ? styles.navLinkActive : ''}`}>Khách hàng</a>
-            <a href="/admin/report-management" className={`${styles.navLink} ${path.includes('/report-management') ? styles.navLinkActive : ''}`}>Báo cáo</a>
+            </Link>
+            <Link to="/admin/import-management" className={`${styles.navLink} ${path.includes('/import-management') ? styles.navLinkActive : ''}`}>Nhập Kho</Link>
+            <Link to="/admin/export-management" className={`${styles.navLink} ${path.includes('/export-management') ? styles.navLinkActive : ''}`}>Xuất Kho</Link>
+            <Link to="/admin/product-management" className={`${styles.navLink} ${path.includes('/product-management') ? styles.navLinkActive : ''}`}>Sản phẩm</Link>
+            <Link to="/admin/supplier-management" className={`${styles.navLink} ${path.includes('/supplier-management') ? styles.navLinkActive : ''}`}>Nhà cung cấp</Link>
+            <Link to="/admin/customer-management" className={`${styles.navLink} ${path.includes('/customer-management') ? styles.navLinkActive : ''}`}>Khách hàng</Link>
+            <Link to="/admin/report-management" className={`${styles.navLink} ${path.includes('/report-management') ? styles.navLinkActive : ''}`}>Báo cáo</Link>
+            <Link to="/admin/expense-management" className={`${styles.navLink} ${path.includes('/expense-management') ? styles.navLinkActive : ''}`}>Chi phí vận hành</Link>
           </nav>
         </div>
 
         <div className={styles.topbarRight}>
-          {/* Period filter */}
-          {period && onPeriodChange && (
-            <div className={styles.periodFilter}>
-              {PERIOD_OPTIONS.map((opt) => (
-                <button
-                  key={opt.value}
-                  className={`${styles.periodBtn} ${period === opt.value ? styles.periodBtnActive : ""
-                    }`}
-                  onClick={() => onPeriodChange(opt.value)}
-                >
-                  {opt.label}
-                </button>
-              ))}
-            </div>
-          )}
-
           {/* Refresh */}
           {onRefresh && (
             <button
@@ -140,7 +139,7 @@ export default function DashboardLayout({
                   className={styles.dropdownItemLogout}
                   onClick={() => {
                     setOpenMenu(false);
-                    if (onLogout) onLogout();
+                    handleLogout();
                   }}
                 >
                   <LogoutOutlined /> Đăng xuất
@@ -148,9 +147,26 @@ export default function DashboardLayout({
               </div>
             )}
           </div>
-
         </div>
       </header>
+
+      {/* ── New Centered Filter Bar ── */}
+      {period && onPeriodChange && (
+        <div className={styles.filterBar}>
+          <div className={styles.filterPill}>
+            {PERIOD_OPTIONS.map((opt) => (
+              <button
+                key={opt.value}
+                className={`${styles.filterPillBtn} ${period === opt.value ? styles.filterPillBtnActive : ""}`}
+                onClick={() => onPeriodChange(opt.value)}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
 
       <main className={styles.content}>
         {children}

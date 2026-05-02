@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { Activity } from '../../../types/Admin/dashboard';
 import { ImportOutlined, ExportOutlined } from '@ant-design/icons';
 import styles from './RecentActivities.module.css';
@@ -26,6 +27,9 @@ function getInitial(name?: string): string {
 }
 
 export default function RecentActivities({ data, isLoading }: RecentActivitiesProps) {
+  const [expanded, setExpanded] = useState(false);
+  const displayData = expanded ? data : data.slice(0, 5);
+
   return (
     <div className={styles.card}>
       <div className={styles.header}>
@@ -37,7 +41,7 @@ export default function RecentActivities({ data, isLoading }: RecentActivitiesPr
         [1, 2, 3, 4].map((i) => <div key={i} className={styles.skeletonRow} />)
       ) : (
         <div className={styles.feed}>
-          {data.slice(0, 8).map((act) => (
+          {displayData.map((act) => (
             <div key={act.id} className={styles.row}>
               {/* Avatar với initial */}
               <div className={`${styles.avatar} ${styles[TYPE_COLOR[act.type] ?? 'export']}`}>
@@ -58,6 +62,11 @@ export default function RecentActivities({ data, isLoading }: RecentActivitiesPr
 
           {data.length === 0 && (
             <div className={styles.empty}>Chưa có hoạt động nào</div>
+          )}
+          {data.length > 5 && (
+            <button className={styles.viewAllBtn} onClick={() => setExpanded(!expanded)}>
+              {expanded ? 'Thu gọn' : 'Xem tất cả'}
+            </button>
           )}
         </div>
       )}

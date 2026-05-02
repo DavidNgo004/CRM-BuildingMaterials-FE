@@ -91,3 +91,24 @@
     background-position: -200% 0;
   }
 }
+
+.viewAllBtn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 10px 0 0;
+  margin-top: 10px;
+  background: none;
+  border: none;
+  border-top: 1px dashed #e8eaed;
+  color: #3b82f6;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.viewAllBtn:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}

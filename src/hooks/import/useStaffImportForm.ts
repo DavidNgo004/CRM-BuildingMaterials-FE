@@ -69,6 +69,24 @@ export const useStaffImportForm = () => {
 
     const grandTotal = lines.reduce((sum, l) => sum + (Number(l.quantity) * Number(l.unit_price) || 0), 0);
 
+    const addFromSuggestion = (suggestion: any) => {
+        const prod = products.find(p => p.id === suggestion.product_id);
+        if (!prod) return;
+        
+        // Remove empty default line if it exists and is the only line
+        let currentLines = [...lines];
+        if (currentLines.length === 1 && currentLines[0].product_id === "") {
+            currentLines = [];
+        }
+        
+        setLines([...currentLines, { 
+            id: Date.now() + Math.random(),
+            product_id: suggestion.product_id, 
+            quantity: suggestion.suggested_qty, 
+            unit_price: prod.import_price || 0 
+        }]);
+    };
+
     const handleSubmit = async () => {
         const validLines = lines.filter(l => l.product_id && l.quantity > 0);
         if (validLines.length === 0) {
@@ -118,6 +136,7 @@ export const useStaffImportForm = () => {
         addLine,
         removeLine,
         updateLine,
+        addFromSuggestion,
         handleSubmit
     };
 };

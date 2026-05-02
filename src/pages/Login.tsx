@@ -1,4 +1,5 @@
 import { Form, Input, Alert } from 'antd';
+import favicon from '../assets/favicon.png';
 import {
   UserOutlined,
   LockOutlined,
@@ -12,9 +13,6 @@ import { useEffect } from 'react';
 
 /**
  * Login Page — Entry point của ứng dụng CRM VLXD.
- *
- * Design: Dark glassmorphism với gradient deep purple/indigo.
- * Logic: Delegate hoàn toàn sang useLogin hook.
  */
 export default function Login() {
   const { loading, error, handleLogin } = useLogin();
@@ -28,7 +26,7 @@ export default function Login() {
         {/* ── Brand ── */}
         <div className="auth-logo">
           <div className="auth-logo-icon">
-            <ShopOutlined style={{ color: '#fff' }} />
+            <img src={favicon} className="auth-logo-img" alt="Logo" />
           </div>
           <div className="auth-logo-text">
             <span className="auth-logo-name">CRM VLXD</span>

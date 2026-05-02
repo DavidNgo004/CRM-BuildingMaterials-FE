@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { TopCustomer } from '../../../types/Admin/dashboard';
 import styles from './MiniReports.module.css';
 
@@ -14,6 +15,9 @@ const fmt = (n: number) =>
   new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(n);
 
 export default function TopCustomers({ data, isLoading }: TopCustomersProps) {
+  const [expanded, setExpanded] = useState(false);
+  const displayData = expanded ? data : data.slice(0, 5);
+
   return (
     <div className={styles.card}>
       <div className={styles.title}>Top khách hàng</div>
@@ -21,7 +25,7 @@ export default function TopCustomers({ data, isLoading }: TopCustomersProps) {
         [1, 2, 3].map((i) => <div key={i} className={styles.skeletonRow} />)
       ) : (
         <div className={styles.list}>
-          {data.map((c, idx) => (
+          {displayData.map((c, idx) => (
             <div key={c.customer_id} className={styles.row}>
               <div className={styles.rank}>{idx + 1}</div>
               <div className={styles.info}>
@@ -33,6 +37,11 @@ export default function TopCustomers({ data, isLoading }: TopCustomersProps) {
           ))}
           {data.length === 0 && (
             <div className={styles.empty}>Chưa có dữ liệu</div>
+          )}
+          {data.length > 5 && (
+            <button className={styles.viewAllBtn} onClick={() => setExpanded(!expanded)}>
+              {expanded ? 'Thu gọn' : 'Xem tất cả'}
+            </button>
           )}
         </div>
       )}

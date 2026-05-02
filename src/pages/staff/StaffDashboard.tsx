@@ -15,22 +15,22 @@ import {
 } from "recharts";
 
 // ── KPI Card ──────────────────────────────────────────────────────────────────
-function KpiCard({
-    label, value, subtitle, color, icon, isLoading,
-}: {
-    label: string; value: number; subtitle: string; color: string; icon: ReactNode; isLoading: boolean;
-}) {
-    return (
-        <div className={styles.kpiCard} style={{ background: color }}>
-            <div className={styles.kpiTopRow}>
-                <div className={styles.kpiIcon}>{icon}</div>
-                <div className={styles.kpiValue}>{isLoading ? "—" : value}</div>
-            </div>
-            <div className={styles.kpiLabel}>{label}</div>
-            <div className={styles.kpiSub}>{subtitle}</div>
-        </div>
-    );
-}
+// function KpiCard({
+//     label, value, subtitle, color, icon, isLoading,
+// }: {
+//     label: string; value: number; subtitle: string; color: string; icon: ReactNode; isLoading: boolean;
+// }) {
+//     return (
+//         <div className={styles.kpiCard} style={{ background: color }}>
+//             <div className={styles.kpiTopRow}>
+//                 <div className={styles.kpiIcon}>{icon}</div>
+//                 <div className={styles.kpiValue}>{isLoading ? "—" : value}</div>
+//             </div>
+//             <div className={styles.kpiLabel}>{label}</div>
+//             <div className={styles.kpiSub}>{subtitle}</div>
+//         </div>
+//     );
+// }
 
 // ── Low Stock Table ───────────────────────────────────────────────────────────
 function LowStockTable({ data, isLoading }: {
@@ -66,7 +66,9 @@ function LowStockTable({ data, isLoading }: {
                         ))
                     ) : data.length === 0 ? (
                         <tr>
-                            <td colSpan={5} className={styles.emptyCell}>Không có sản phẩm nào</td>
+                            <td colSpan={5} className={styles.emptyCell} style={{ textAlign: 'center', padding: '24px', color: '#6b7280' }}>
+                                Không có sản phẩm nào sắp hết hàng
+                            </td>
                         </tr>
                     ) : (
                         data.map(item => {
@@ -153,11 +155,14 @@ export default function StaffDashboard() {
     };
 
     // Merge import & export into chart data for grouped bar chart
-    const chartData = stockChart.map(d => ({
-        date: d.date,
-        'Nhập kho': d.quantity,
-        'Xuất kho': Math.max(0, d.quantity - Math.floor(Math.random() * 8 + 2)), // mock export
-    }));
+    const chartData = stockChart.map(d => {
+        const labelKey = d.label_key || 'date';
+        return {
+            date: d[labelKey] || d.date,
+            'Nhập kho': d.import_count || 0,
+            'Xuất kho': d.export_count || 0,
+        };
+    });
 
     const criticalCount = lowStockProducts.filter(p => p.status === 'critical').length;
     const lowCount = lowStockProducts.filter(p => p.status === 'low').length;
@@ -178,7 +183,7 @@ export default function StaffDashboard() {
                     </button>
                 </div>
 
-                {/* ── KPI Cards ── */}
+                {/* ── KPI Cards ──
                 <section className={styles.kpiRow}>
                     <KpiCard
                         label="Tổng Sản Phẩm"
@@ -212,7 +217,7 @@ export default function StaffDashboard() {
                         icon={<AlertOutlined />}
                         isLoading={isLoading}
                     />
-                </section>
+                </section> */}
 
                 {/* ── Main Grid ── */}
                 <div className={styles.mainGrid}>

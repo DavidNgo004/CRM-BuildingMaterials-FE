@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { InventoryAlert } from '../../../types/Admin/dashboard';
 import styles from './InventoryAlerts.module.css';
 
@@ -23,8 +24,11 @@ const LEVEL_ICON: Record<string, string> = {
 };
 
 export default function InventoryAlerts({ data, isLoading }: InventoryAlertsProps) {
+  const [expanded, setExpanded] = useState(false);
+  
   // Lọc chỉ show low_stock + overstock + slow_moving (bỏ ai_forecast vì đã merge vào suggestion)
   const filtered = data.filter((a) => a.type !== 'ai_forecast');
+  const displayData = expanded ? filtered : filtered.slice(0, 5);
 
   return (
     <div className={styles.card}>
@@ -33,7 +37,7 @@ export default function InventoryAlerts({ data, isLoading }: InventoryAlertsProp
         [1, 2, 3].map((i) => <div key={i} className={styles.skeletonRow} />)
       ) : (
         <div className={styles.list}>
-          {filtered.slice(0, 6).map((alert, idx) => (
+          {displayData.map((alert, idx) => (
             <div
               key={idx}
               className={`${styles.alertRow} ${styles[LEVEL_CLASS[alert.level] ?? 'info']}`}
@@ -51,6 +55,11 @@ export default function InventoryAlerts({ data, isLoading }: InventoryAlertsProp
           ))}
           {filtered.length === 0 && (
             <div className={styles.empty}>✅ Không có cảnh báo</div>
+          )}
+          {filtered.length > 5 && (
+            <button className={styles.viewAllBtn} onClick={() => setExpanded(!expanded)}>
+              {expanded ? 'Thu gọn' : 'Xem tất cả'}
+            </button>
           )}
         </div>
       )}

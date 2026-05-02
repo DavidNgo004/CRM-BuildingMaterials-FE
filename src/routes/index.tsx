@@ -23,6 +23,7 @@ const StaffExportPage = lazy(() => import('../pages/staff/StaffExportPage'));
 const StaffInventoryPage = lazy(() => import('../pages/staff/StaffInventoryPage'));
 const StaffReportPage = lazy(() => import('../pages/staff/StaffReportPage'));
 const AdminReportPage = lazy(() => import('../pages/admin/ReportPage'));
+const ExpensePage = lazy(() => import('../pages/admin/ExpensePage'));
 
 // ─── Loading fallback ─────────────────────────────────────────────────────────
 
@@ -212,6 +213,15 @@ export default function AppRoutes() {
             element={
               <ProtectedRoute role="admin" redirectTo="/admin/dashboard">
                 <AdminReportPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/expense-management"
+            element={
+              <ProtectedRoute role="admin" redirectTo="/admin/dashboard">
+                <ExpensePage />
               </ProtectedRoute>
             }
           />

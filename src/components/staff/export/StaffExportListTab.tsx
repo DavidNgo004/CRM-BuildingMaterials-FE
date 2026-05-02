@@ -4,33 +4,33 @@ import {
     CheckCircleOutlined, CloseCircleOutlined, EyeOutlined,
     ClockCircleOutlined, CheckOutlined,
 } from '@ant-design/icons';
-import { useStaffImportList } from '../../../hooks/import/useStaffImportList';
-import type { Import } from '../../../types/Admin/import';
+import { useStaffExportList } from '../../../hooks/export/useStaffExportList';
+import type { Export } from '../../../types/Admin/export';
 
 const { Text } = Typography;
 const { Option } = Select;
 
 const STATUS_LABEL: Record<string, { label: string; color: string }> = {
-    pending: { label: 'Chờ duyệt', color: 'orange' },
-    approved: { label: 'Đã duyệt - Chờ hàng về', color: 'blue' },
+    pending: { label: 'Chờ xử lý', color: 'orange' },
+    approved: { label: 'Đã duyệt - Chờ xuất', color: 'blue' },
     completed: { label: 'Hoàn thành', color: 'green' },
     cancelled: { label: 'Đã hủy', color: 'default' },
 };
 
-export default function StaffImportListTab() {
-    const { imports, loading, fetchImports, confirmDelivered, cancelImport } = useStaffImportList();
+export default function StaffExportListTab() {
+    const { exports, loading, fetchExports, confirmExported, cancelExport } = useStaffExportList();
     const [statusFilter, setStatusFilter] = useState('all');
     const [searchText, setSearchText] = useState('');
-    const [detailRecord, setDetailRecord] = useState<Import | null>(null);
+    const [detailRecord, setDetailRecord] = useState<Export | null>(null);
 
     useEffect(() => {
-        fetchImports();
-    }, [fetchImports]);
+        fetchExports();
+    }, [fetchExports]);
 
-    const filtered = imports.filter(imp => {
-        const matchStatus = statusFilter === 'all' || imp.status === statusFilter;
+    const filtered = exports.filter(exp => {
+        const matchStatus = statusFilter === 'all' || exp.status === statusFilter;
         const matchSearch = !searchText ||
-            (imp.code || '').toLowerCase().includes(searchText.toLowerCase());
+            (exp.code || '').toLowerCase().includes(searchText.toLowerCase());
         return matchStatus && matchSearch;
     });
 
@@ -74,7 +74,7 @@ export default function StaffImportListTab() {
         {
             title: 'Hành động',
             key: 'actions',
-            render: (_: any, record: Import) => (
+            render: (_: any, record: Export) => (
                 <Space size="small" wrap>
                     <Button
                         size="small"
@@ -85,23 +85,23 @@ export default function StaffImportListTab() {
                     </Button>
                     {record.status === 'approved' && (
                         <Popconfirm
-                            title="Xác nhận hàng đã về kho?"
+                            title="Xác nhận đã xuất kho?"
                             description="Thao tác này sẽ cập nhật tồn kho và không thể hoàn tác."
-                            onConfirm={() => confirmDelivered(record.id)}
+                            onConfirm={() => confirmExported(record.id)}
                             okText="Xác nhận"
                             cancelText="Hủy"
                             okButtonProps={{ style: { background: '#10b981' } }}
                         >
                             <Button size="small" icon={<CheckCircleOutlined />} style={{ color: '#10b981', borderColor: '#10b981' }}>
-                                Hàng đã về
+                                Xác nhận xuất kho
                             </Button>
                         </Popconfirm>
                     )}
-                    {(record.status === 'approved') && (
+                    {record.status === 'pending' && (
                         <Popconfirm
-                            title="Hủy đơn nhập hàng?"
-                            description="Đơn hàng sẽ bị hủy vì có vấn đề khi giao hàng."
-                            onConfirm={() => cancelImport(record.id)}
+                            title="Hủy đơn xuất kho?"
+                            description="Đơn hàng sẽ bị hủy."
+                            onConfirm={() => cancelExport(record.id)}
                             okText="Hủy đơn"
                             cancelText="Không"
                             okButtonProps={{ danger: true }}
@@ -127,8 +127,8 @@ export default function StaffImportListTab() {
                 />
                 <Select value={statusFilter} onChange={setStatusFilter} style={{ width: 200 }}>
                     <Option value="all">Tất cả</Option>
-                    <Option value="pending"><ClockCircleOutlined style={{ color: '#f59e0b' }} /> Chờ duyệt</Option>
-                    <Option value="approved"><CheckOutlined style={{ color: '#3b82f6' }} /> Đã duyệt - Chờ hàng</Option>
+                    <Option value="pending"><ClockCircleOutlined style={{ color: '#f59e0b' }} /> Chờ xử lý</Option>
+                    <Option value="approved"><CheckOutlined style={{ color: '#3b82f6' }} /> Đã duyệt - Chờ xuất</Option>
                     <Option value="completed"><CheckCircleOutlined style={{ color: '#10b981' }} /> Hoàn thành</Option>
                     <Option value="cancelled"><CloseCircleOutlined /> Đã hủy</Option>
                 </Select>
@@ -146,7 +146,7 @@ export default function StaffImportListTab() {
 
             {/* Detail Modal */}
             <Modal
-                title={`Chi tiết phiếu nhập — ${detailRecord?.code}`}
+                title={`Chi tiết phiếu xuất — ${detailRecord?.code}`}
                 open={!!detailRecord}
                 onCancel={() => setDetailRecord(null)}
                 footer={null}

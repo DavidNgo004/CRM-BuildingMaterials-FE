@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { AiSuggestion } from '../../../types/Admin/dashboard';
 import styles from './AiSuggestions.module.css';
 
@@ -11,6 +12,9 @@ interface AiSuggestionsProps {
 }
 
 export default function AiSuggestions({ data, isLoading }: AiSuggestionsProps) {
+  const [expanded, setExpanded] = useState(false);
+  const displayData = expanded ? data : data.slice(0, 5);
+
   return (
     <div className={styles.card}>
       <div className={styles.header}>
@@ -20,7 +24,7 @@ export default function AiSuggestions({ data, isLoading }: AiSuggestionsProps) {
         [1, 2].map((i) => <div key={i} className={styles.skeletonRow} />)
       ) : (
         <div className={styles.list}>
-          {data.slice(0, 5).map((s) => (
+          {displayData.map((s) => (
             <div key={s.product_id} className={styles.row}>
               <span className={styles.productIcon}>📦</span>
               <div className={styles.info}>
@@ -36,6 +40,11 @@ export default function AiSuggestions({ data, isLoading }: AiSuggestionsProps) {
           ))}
           {data.length === 0 && (
             <div className={styles.empty}>✅ Tồn kho đang ổn định</div>
+          )}
+          {data.length > 5 && (
+            <button className={styles.viewAllBtn} onClick={() => setExpanded(!expanded)}>
+              {expanded ? 'Thu gọn' : 'Xem tất cả'}
+            </button>
           )}
         </div>
       )}

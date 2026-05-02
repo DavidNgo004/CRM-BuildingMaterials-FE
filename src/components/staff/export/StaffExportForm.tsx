@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./StaffExportForm.module.css";
 import { useStaffExportForm } from "../../../hooks/export/useStaffExportForm";
-import { Switch } from "antd";
+import { Switch, Select } from "antd";
 
 export default function StaffExportForm() {
     const {
@@ -50,16 +50,21 @@ export default function StaffExportForm() {
                 {!isNewCustomer ? (
                     <div className={styles.formGroup}>
                         <label className={styles.formLabel}>Chọn khách hàng</label>
-                        <select
-                            className={styles.formControl}
-                            value={customerId}
-                            onChange={(e) => setCustomerId(Number(e.target.value) || "")}
-                        >
-                            <option value="">-- Chọn khách hàng --</option>
-                            {customers.map(c => (
-                                <option key={c.id} value={c.id}>{c.name} - {c.phone}</option>
-                            ))}
-                        </select>
+                        <Select
+                            showSearch
+                            placeholder="-- Chọn khách hàng --"
+                            optionFilterProp="children"
+                            filterOption={(input, option) =>
+                                (option?.label ?? '').toString().toLowerCase().includes(input.toLowerCase())
+                            }
+                            style={{ width: '100%' }}
+                            value={customerId || undefined}
+                            onChange={(val) => setCustomerId(val || "")}
+                            options={customers.map(c => ({
+                                value: c.id,
+                                label: `${c.name} - ${c.phone}`
+                            }))}
+                        />
                     </div>
                 ) : (
                     <>
@@ -105,15 +110,16 @@ export default function StaffExportForm() {
                         </div>
                         <div className={styles.formGroup}>
                             <label className={styles.formLabel}>Loại khách hàng</label>
-                            <select
-                                className={styles.formControl}
-                                value={newCustomerType}
-                                onChange={e => setNewCustomerType(e.target.value)}
-                            >
-                                <option value="">-- Chọn loại khách hàng --</option>
-                                <option value="Khách hàng bán lẻ">Khách hàng bán lẻ</option>
-                                <option value="Khách hàng mua số lượng lớn">Khách hàng mua số lượng lớn</option>
-                            </select>
+                            <Select
+                                style={{ width: '100%' }}
+                                placeholder="-- Chọn loại khách hàng --"
+                                value={newCustomerType || undefined}
+                                onChange={val => setNewCustomerType(val)}
+                                options={[
+                                    { value: 'Khách hàng bán lẻ', label: 'Khách hàng bán lẻ' },
+                                    { value: 'Khách hàng mua số lượng lớn', label: 'Khách hàng mua số lượng lớn' }
+                                ]}
+                            />
                         </div>
                     </>
                 )}
@@ -137,16 +143,21 @@ export default function StaffExportForm() {
                         ) : lines.map(line => (
                             <tr key={line.id}>
                                 <td>
-                                    <select
-                                        className={styles.rowSelect}
-                                        value={line.product_id}
-                                        onChange={e => updateLine(line.id, 'product_id', e.target.value)}
-                                    >
-                                        <option value="">-- Chọn vật liệu --</option>
-                                        {products.map(p => (
-                                            <option key={p.id} value={p.id}>{p.name} (Tồn: {p.stock})</option>
-                                        ))}
-                                    </select>
+                                    <Select
+                                        showSearch
+                                        placeholder="-- Chọn vật liệu --"
+                                        optionFilterProp="children"
+                                        filterOption={(input, option) =>
+                                            (option?.label ?? '').toString().toLowerCase().includes(input.toLowerCase())
+                                        }
+                                        style={{ width: '100%' }}
+                                        value={line.product_id || undefined}
+                                        onChange={val => updateLine(line.id, 'product_id', val)}
+                                        options={products.map(p => ({
+                                            value: p.id,
+                                            label: `${p.name} (Tồn: ${p.stock})`
+                                        }))}
+                                    />
                                 </td>
                                 <td>
                                     <input type="number" min="1" className={styles.rowInput}

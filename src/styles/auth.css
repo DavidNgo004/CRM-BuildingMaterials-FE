@@ -16,6 +16,10 @@
   font-family: 'Inter', sans-serif;
 }
 
+.auth-logo-img {
+  width: 80%;
+}
+
 html,
 body,
 #root {
@@ -111,7 +115,7 @@ body,
   width: 48px;
   height: 48px;
   border-radius: 14px;
-  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  background: #5db9e0;
   display: flex;
   align-items: center;
   justify-content: center;
