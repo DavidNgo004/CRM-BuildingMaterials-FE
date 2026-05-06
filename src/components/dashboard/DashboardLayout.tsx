@@ -93,6 +93,7 @@ export default function DashboardLayout({
             <Link to="/admin/customer-management" className={`${styles.navLink} ${path.includes('/customer-management') ? styles.navLinkActive : ''}`}>Khách hàng</Link>
             <Link to="/admin/report-management" className={`${styles.navLink} ${path.includes('/report-management') ? styles.navLinkActive : ''}`}>Báo cáo</Link>
             <Link to="/admin/expense-management" className={`${styles.navLink} ${path.includes('/expense-management') ? styles.navLinkActive : ''}`}>Chi phí vận hành</Link>
+            <Link to="/admin/activity-log" className={`${styles.navLink} ${path.includes('/activity-log') ? styles.navLinkActive : ''}`}>Lịch sử</Link>
           </nav>
         </div>
 

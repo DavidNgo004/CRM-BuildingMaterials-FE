@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table, Button, Space, Popconfirm, Tag, Tooltip, Avatar } from 'antd';
-import { EditOutlined, DeleteOutlined, DollarOutlined, UserOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, UserOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import type { Expense } from '../../../types/Admin/expense';
 
@@ -62,18 +62,6 @@ export default function ExpenseTable({
       key: 'title',
       render: (text: string) => (
         <Space>
-          <div style={{
-            width: 36,
-            height: 36,
-            borderRadius: 8,
-            background: '#fff1f0',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#cf1322',
-          }}>
-            <DollarOutlined />
-          </div>
           <Tag
             color={getCategoryColor(text)}
             style={{ borderRadius: 6, fontWeight: 500, margin: 0 }}
