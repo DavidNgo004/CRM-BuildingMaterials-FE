@@ -4,6 +4,8 @@ import {
   DeleteOutlined,
   UserOutlined,
   MailOutlined,
+  UnlockOutlined,
+  LockOutlined,
 } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 import type { Staff } from '../../types/auth';
@@ -15,13 +17,14 @@ interface Props {
   loading: boolean;
   onEdit: (staff: Staff) => void;
   onDelete: (id: number) => void;
+  onToggleLock: (id: number) => void;
 }
 
 /**
  * StaffTable — Bảng danh sách nhân viên kho.
  * Hoàn toàn presentational, nhận data + callbacks từ parent.
  */
-export default function StaffTable({ staffs, loading, onEdit, onDelete }: Props) {
+export default function StaffTable({ staffs, loading, onEdit, onDelete, onToggleLock }: Props) {
   const columns: ColumnsType<Staff> = [
     {
       title: '#',
@@ -64,6 +67,16 @@ export default function StaffTable({ staffs, loading, onEdit, onDelete }: Props)
       ),
     },
     {
+      title: 'Trạng thái',
+      dataIndex: 'is_locked',
+      key: 'is_locked',
+      render: (is_locked: boolean) => (
+        <Tag color={is_locked ? 'error' : 'success'} style={{ borderRadius: 20, padding: '2px 12px' }}>
+          {is_locked ? 'Đã Khoá' : 'Hoạt động'}
+        </Tag>
+      ),
+    },
+    {
       title: 'Ngày tạo',
       dataIndex: 'created_at',
       key: 'created_at',
@@ -102,6 +115,22 @@ export default function StaffTable({ staffs, loading, onEdit, onDelete }: Props)
                 type="text"
                 icon={<DeleteOutlined />}
                 danger
+              />
+            </Popconfirm>
+          </Tooltip>
+          <Tooltip title={record.is_locked ? "Mở khoá" : "Khoá"}>
+            <Popconfirm
+              title={record.is_locked ? "Mở khoá tài khoản?" : "Khoá tài khoản?"}
+              description={record.is_locked ? `Mở khoá tài khoản "${record.name}"?` : `Tài khoản "${record.name}" sẽ bị đăng xuất và không thể đăng nhập.`}
+              onConfirm={() => onToggleLock(record.id)}
+              okText="Xác nhận"
+              cancelText="Hủy"
+              okButtonProps={!record.is_locked ? { danger: true } : {}}
+              placement="topRight"
+            >
+              <Button
+                type="text"
+                icon={record.is_locked ? <UnlockOutlined /> : <LockOutlined />}
               />
             </Popconfirm>
           </Tooltip>

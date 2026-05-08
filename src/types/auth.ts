@@ -30,6 +30,7 @@ export interface User {
   name: string;
   email: string;
   role: 'admin' | 'warehouse_staff';
+  is_locked: boolean;
   created_at: string;
   updated_at: string;
 }

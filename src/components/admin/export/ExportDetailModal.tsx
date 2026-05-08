@@ -125,6 +125,11 @@ export default function ExportDetailModal({ open, record, onClose }: Props) {
                         {record.note}
                     </Descriptions.Item>
                 )}
+                {record.status === 'cancelled' && (
+                    <Descriptions.Item label="Lý do huỷ" span={2}>
+                        <Text type="danger">{record.cancel_reason || '—'}</Text>
+                    </Descriptions.Item>
+                )}
             </Descriptions>
 
             {/* Bảng chi tiết sản phẩm */}

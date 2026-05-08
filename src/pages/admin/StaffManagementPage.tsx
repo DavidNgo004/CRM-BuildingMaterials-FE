@@ -32,7 +32,7 @@ export default function StaffManagementPage() {
   useEffect(() => {
     document.title = 'Quản lý nhân viên kho';
   }, []);
-  const { staffs, loading, error, createStaff, updateStaff, deleteStaff } = useStaff();
+  const { staffs, loading, error, createStaff, updateStaff, deleteStaff, toggleLockStaff } = useStaff();
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -162,6 +162,7 @@ export default function StaffManagementPage() {
             loading={loading}
             onEdit={openEdit}
             onDelete={handleDelete}
+            onToggleLock={toggleLockStaff}
           />
         </Card>
 

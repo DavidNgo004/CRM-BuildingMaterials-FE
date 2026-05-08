@@ -41,7 +41,10 @@ axiosClient.interceptors.request.use(
 axiosClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    // Không redirect nếu là request login để tránh vòng lặp hoặc mất thông báo lỗi
+    const isLoginRequest = error.config?.url?.includes('/login');
+
+    if (error.response?.status === 401 && !isLoginRequest) {
       // Token hết hạn hoặc không hợp lệ → xóa auth data + redirect
       logout();
       window.location.replace('/login');

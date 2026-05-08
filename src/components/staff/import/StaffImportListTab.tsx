@@ -23,6 +23,28 @@ export default function StaffImportListTab() {
     const [searchText, setSearchText] = useState('');
     const [detailRecord, setDetailRecord] = useState<Import | null>(null);
 
+    // Cancel Modal State
+    const [cancelModalOpen, setCancelModalOpen] = useState(false);
+    const [cancelingId, setCancelingId] = useState<number | null>(null);
+    const [cancelReason, setCancelReason] = useState('');
+
+    const handleCancelClick = (id: number) => {
+        setCancelingId(id);
+        setCancelReason('');
+        setCancelModalOpen(true);
+    };
+
+    const confirmCancel = async () => {
+        if (!cancelingId) return;
+        if (!cancelReason.trim()) {
+            import('antd').then(({ message }) => message.error('Vui lòng nhập lý do huỷ đơn hàng'));
+            return;
+        }
+        await cancelImport(cancelingId, cancelReason);
+        setCancelModalOpen(false);
+        setCancelingId(null);
+    };
+
     useEffect(() => {
         fetchImports();
     }, [fetchImports]);
@@ -98,18 +120,9 @@ export default function StaffImportListTab() {
                         </Popconfirm>
                     )}
                     {(record.status === 'approved') && (
-                        <Popconfirm
-                            title="Hủy đơn nhập hàng?"
-                            description="Đơn hàng sẽ bị hủy vì có vấn đề khi giao hàng."
-                            onConfirm={() => cancelImport(record.id)}
-                            okText="Hủy đơn"
-                            cancelText="Không"
-                            okButtonProps={{ danger: true }}
-                        >
-                            <Button size="small" danger icon={<CloseCircleOutlined />}>
-                                Hủy đơn
-                            </Button>
-                        </Popconfirm>
+                        <Button size="small" danger icon={<CloseCircleOutlined />} onClick={() => handleCancelClick(record.id)}>
+                            Hủy đơn
+                        </Button>
                     )}
                 </Space>
             ),
@@ -186,6 +199,26 @@ export default function StaffImportListTab() {
                         )}
                     </>
                 )}
+            </Modal>
+
+            {/* Cancel Modal */}
+            <Modal
+                title="Xác nhận huỷ đơn nhập hàng"
+                open={cancelModalOpen}
+                onOk={confirmCancel}
+                onCancel={() => setCancelModalOpen(false)}
+                okText="Xác nhận huỷ"
+                cancelText="Đóng"
+                okButtonProps={{ danger: true }}
+            >
+                <Typography.Text strong>Lý do huỷ đơn:</Typography.Text>
+                <Input.TextArea
+                    rows={4}
+                    placeholder="Nhập lý do huỷ..."
+                    value={cancelReason}
+                    onChange={(e) => setCancelReason(e.target.value)}
+                    style={{ marginTop: 8 }}
+                />
             </Modal>
         </>
     );

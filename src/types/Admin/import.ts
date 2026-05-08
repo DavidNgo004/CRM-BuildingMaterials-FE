@@ -31,6 +31,7 @@ export interface Import {
   grand_total: number;
   status: ImportStatus;
   note?: string;
+  cancel_reason?: string;
   created_at: string;
   updated_at: string;
   user?: {
@@ -57,6 +58,7 @@ export type UpdateImportRequest = StoreImportRequest;
 
 export interface ChangeImportStatusRequest {
   status: ImportStatus;
+  cancel_reason?: string;
 }
 
 export interface AISuggestion {

@@ -58,6 +58,12 @@ export const authApi = {
    */
   deleteStaff: (id: number) =>
     axiosClient.delete<{ message: string }>(`/staffs/${id}`),
+
+  /**
+   * Khoá / Mở khoá nhân viên — PUT /staffs/{id}/toggle-lock
+   */
+  toggleLockStaff: (id: number) =>
+    axiosClient.put<{ message: string; data: Staff }>(`/staffs/${id}/toggle-lock`),
 };
 /* 
 *Logout

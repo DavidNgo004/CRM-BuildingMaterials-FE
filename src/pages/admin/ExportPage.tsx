@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {
     Card, Typography, Space, Alert, Row, Col,
-    Statistic, Input, Tag, Tabs,
+    Statistic, Input, Tag, Tabs, Modal
 } from 'antd';
 import {
     ShoppingCartOutlined,
@@ -72,8 +72,32 @@ export default function ExportPage() {
 
     const handleApprove = (id: number) => changeStatus(id, 'approved');
     const handleComplete = (id: number) => changeStatus(id, 'completed');
-    const handleCancel = (id: number) => changeStatus(id, 'cancelled');
     const handleDelete = (id: number) => deleteExport(id);
+
+    // Cancel modal state
+    const [cancelModalOpen, setCancelModalOpen] = useState(false);
+    const [cancelingId, setCancelingId] = useState<number | null>(null);
+    const [cancelReason, setCancelReason] = useState('');
+    const [formLoading, setFormLoading] = useState(false);
+
+    const handleCancelClick = (id: number) => {
+        setCancelingId(id);
+        setCancelReason('');
+        setCancelModalOpen(true);
+    };
+
+    const confirmCancel = async () => {
+        if (!cancelingId) return;
+        if (!cancelReason.trim()) {
+            import('antd').then(({ message }) => message.error('Vui lòng nhập lý do huỷ phiếu xuất'));
+            return;
+        }
+        setFormLoading(true);
+        await changeStatus(cancelingId, 'cancelled', cancelReason);
+        setFormLoading(false);
+        setCancelModalOpen(false);
+        setCancelingId(null);
+    };
 
     const tabItems = [
         { key: 'all', label: <><FileTextOutlined />  Tất cả <Tag>{exports.length}</Tag></> },
@@ -175,7 +199,7 @@ export default function ExportPage() {
                             onView={handleView}
                             onApprove={handleApprove}
                             onComplete={handleComplete}
-                            onCancel={handleCancel}
+                            onCancel={handleCancelClick}
                             onDelete={handleDelete}
                         />
                     </div>
@@ -187,6 +211,28 @@ export default function ExportPage() {
                     record={selectedExport}
                     onClose={() => setDetailOpen(false)}
                 />
+
+                {/* ── Modal Hủy phiếu ── */}
+                <Modal
+                    title="Xác nhận huỷ phiếu xuất"
+                    open={cancelModalOpen}
+                    onOk={confirmCancel}
+                    onCancel={() => setCancelModalOpen(false)}
+                    confirmLoading={formLoading}
+                    okText="Xác nhận huỷ"
+                    cancelText="Đóng"
+                    okButtonProps={{ danger: true }}
+                >
+                    <Alert message="Lưu ý: Hành động này không thể hoàn tác." type="warning" showIcon style={{ marginBottom: 16 }} />
+                    <Typography.Text strong>Lý do huỷ đơn:</Typography.Text>
+                    <Input.TextArea
+                        rows={4}
+                        placeholder="Nhập lý do huỷ phiếu xuất..."
+                        value={cancelReason}
+                        onChange={(e) => setCancelReason(e.target.value)}
+                        style={{ marginTop: 8 }}
+                    />
+                </Modal>
             </div>
         </DashboardLayout>
     );

@@ -28,6 +28,7 @@ export interface Export {
   grand_total: number;
   status: ExportStatus;
   note?: string;
+  cancel_reason?: string | null;
   created_at: string;
   updated_at: string;
   user?: {
@@ -47,6 +48,7 @@ export interface Export {
 
 export interface ChangeExportStatusRequest {
   status: ExportStatus;
+  cancel_reason?: string;
 }
 
 export interface ExportDetailRequest {

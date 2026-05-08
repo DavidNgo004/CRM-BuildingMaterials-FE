@@ -110,6 +110,11 @@ export default function ImportDetailModal({ open, record, onClose }: Props) {
                 <Descriptions.Item label="Ghi chú" span={2}>
                     {record.note || '—'}
                 </Descriptions.Item>
+                {record.status === 'cancelled' && (
+                    <Descriptions.Item label="Lý do huỷ" span={2}>
+                        <Text type="danger">{record.cancel_reason || '—'}</Text>
+                    </Descriptions.Item>
+                )}
             </Descriptions>
 
             <Table

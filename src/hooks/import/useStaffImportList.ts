@@ -30,9 +30,9 @@ export const useStaffImportList = () => {
         }
     }, [fetchImports]);
 
-    const cancelImport = useCallback(async (id: number) => {
+    const cancelImport = useCallback(async (id: number, cancel_reason: string) => {
         try {
-            await importApi.changeStatus(id, { status: 'cancelled' });
+            await importApi.changeStatus(id, { status: 'cancelled', cancel_reason });
             message.success('Đã hủy đơn nhập hàng');
             await fetchImports();
         } catch (err: any) {

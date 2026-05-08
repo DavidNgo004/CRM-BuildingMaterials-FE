@@ -4,6 +4,8 @@ import { authApi } from '../../api/auth/authApi';
 import { useAuth } from '../../store/authContext';
 import type { LoginRequest } from '../../types/auth';
 
+import type { FormInstance } from 'antd';
+
 interface UseLoginReturn {
   loading: boolean;
   error: string | null;
@@ -17,11 +19,11 @@ interface UseLoginReturn {
  * - Redirect theo role
  * - Quản lý loading / error state
  */
-export function useLogin(): UseLoginReturn {
+export function useLogin(form?: FormInstance<LoginRequest>): UseLoginReturn {
   const { login } = useAuth();
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [error, setError]     = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const handleLogin = async (values: LoginRequest) => {
     setLoading(true);
@@ -40,7 +42,13 @@ export function useLogin(): UseLoginReturn {
     } catch (err: any) {
       const status = err.response?.status;
       if (status === 401) {
-        setError('Email hoặc mật khẩu không đúng.');
+        const msg = err.response?.data?.message;
+        if (msg && msg !== 'Invalid credentials') {
+          setError(msg);
+        } else {
+          setError('Email hoặc mật khẩu không đúng.');
+        }
+        if (form) form.setFieldsValue({ password: '' });
       } else if (status === 422) {
         setError('Dữ liệu nhập không hợp lệ.');
       } else if (status === 500) {

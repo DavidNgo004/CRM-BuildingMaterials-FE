@@ -10,6 +10,7 @@ interface UseStaffReturn {
   createStaff: (data: CreateStaffRequest) => Promise<boolean>;
   updateStaff: (id: number, data: UpdateStaffRequest) => Promise<boolean>;
   deleteStaff: (id: number) => Promise<boolean>;
+  toggleLockStaff: (id: number) => Promise<boolean>;
 }
 
 /**
@@ -75,5 +76,17 @@ export function useStaff(): UseStaffReturn {
     }
   };
 
-  return { staffs, loading, error, fetchStaffs, createStaff, updateStaff, deleteStaff };
+  const toggleLockStaff = async (id: number): Promise<boolean> => {
+    try {
+      await authApi.toggleLockStaff(id);
+      await fetchStaffs();
+      return true;
+    } catch (err: any) {
+      const msg = err.response?.data?.message ?? 'Khoá/Mở khoá nhân viên thất bại.';
+      setError(msg);
+      return false;
+    }
+  };
+
+  return { staffs, loading, error, fetchStaffs, createStaff, updateStaff, deleteStaff, toggleLockStaff };
 }

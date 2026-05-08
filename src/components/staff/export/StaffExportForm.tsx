@@ -169,6 +169,7 @@ export default function StaffExportForm() {
                                     <input type="number" min="0" className={styles.rowInput}
                                         value={line.unit_price}
                                         onChange={e => updateLine(line.id, 'unit_price', e.target.value)}
+                                        disabled
                                     />
                                 </td>
                                 <td className={styles.totalText}>

@@ -119,90 +119,90 @@ export default function StaffImportForm() {
             </Card>
 
             <div className={styles.card}>
-            {/* Form Product List Table */}
-            <div className={styles.tableWrapper}>
-                <table className={styles.table}>
-                    <thead>
-                        <tr>
-                            <th style={{ width: "200px" }}>Vật liệu</th>
-                            <th style={{ width: "150px" }}>Số Lượng</th>
-                            <th style={{ width: "200px" }}>Giá Nhập</th>
-                            <th style={{ width: "200px" }}>Thành Tiền</th>
-                            <th style={{ width: "60px", textAlign: 'center' }}>✕</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {lines.length === 0 ? (
-                            <tr><td colSpan={5} className={styles.emptyState}>Chưa có vật liệu nào được thêm vào danh sách.</td></tr>
-                        ) : lines.map(line => (
-                            <tr key={line.id}>
-                                <td>
-                                    <Select
-                                        showSearch
-                                        placeholder="-- Chọn vật liệu --"
-                                        optionFilterProp="children"
-                                        filterOption={(input, option) =>
-                                            (option?.label ?? '').toString().toLowerCase().includes(input.toLowerCase())
-                                        }
-                                        style={{ width: '100%' }}
-                                        value={line.product_id || undefined}
-                                        onChange={val => updateLine(line.id, 'product_id', val)}
-                                        options={products.map(p => ({
-                                            value: p.id,
-                                            label: `${p.name} (Tồn hiện tại: ${p.stock})`
-                                        }))}
-                                    />
-                                </td>
-                                <td>
-                                    <input
-                                        type="number"
-                                        min="1"
-                                        className={styles.rowInput}
-                                        value={line.quantity}
-                                        onChange={e => updateLine(line.id, 'quantity', e.target.value)}
-                                    />
-                                </td>
-                                <td>
-                                    <input
-                                        type="number"
-                                        min="0"
-                                        className={styles.rowInput}
-                                        value={line.unit_price}
-                                        onChange={e => updateLine(line.id, 'unit_price', e.target.value)}
-                                        disabled
-                                    />
-                                </td>
-                                <td className={styles.totalText}>
-                                    {formatVND(Number(line.quantity) * Number(line.unit_price) || 0)} đ
-                                </td>
-                                <td style={{ textAlign: 'center' }}>
-                                    <button className={styles.actionBtn} onClick={() => removeLine(line.id)} title="Xóa dòng này">
-                                        ✕
-                                    </button>
-                                </td>
+                {/* Form Product List Table */}
+                <div className={styles.tableWrapper}>
+                    <table className={styles.table}>
+                        <thead>
+                            <tr>
+                                <th style={{ width: "200px" }}>Vật liệu</th>
+                                <th style={{ width: "150px" }}>Số Lượng</th>
+                                <th style={{ width: "200px" }}>Giá Nhập</th>
+                                <th style={{ width: "200px" }}>Thành Tiền</th>
+                                <th style={{ width: "60px", textAlign: 'center' }}>✕</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-
-            <button className={styles.addBtn} onClick={addLine}>
-                + Thêm dòng sản phẩm
-            </button>
-
-            <div className={styles.footer}>
-                <div className={styles.grandTotal}>
-                    Tổng Tiền: {formatVND(grandTotal)} đ
+                        </thead>
+                        <tbody>
+                            {lines.length === 0 ? (
+                                <tr><td colSpan={5} className={styles.emptyState}>Chưa có vật liệu nào được thêm vào danh sách.</td></tr>
+                            ) : lines.map(line => (
+                                <tr key={line.id}>
+                                    <td>
+                                        <Select
+                                            showSearch
+                                            placeholder="-- Chọn vật liệu --"
+                                            optionFilterProp="children"
+                                            filterOption={(input, option) =>
+                                                (option?.label ?? '').toString().toLowerCase().includes(input.toLowerCase())
+                                            }
+                                            style={{ width: '100%' }}
+                                            value={line.product_id || undefined}
+                                            onChange={val => updateLine(line.id, 'product_id', val)}
+                                            options={products.map(p => ({
+                                                value: p.id,
+                                                label: `${p.name} (Tồn hiện tại: ${p.stock})`
+                                            }))}
+                                        />
+                                    </td>
+                                    <td>
+                                        <input
+                                            type="number"
+                                            min="1"
+                                            className={styles.rowInput}
+                                            value={line.quantity}
+                                            onChange={e => updateLine(line.id, 'quantity', e.target.value)}
+                                        />
+                                    </td>
+                                    <td>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            className={styles.rowInput}
+                                            value={line.unit_price}
+                                            onChange={e => updateLine(line.id, 'unit_price', e.target.value)}
+                                            disabled
+                                        />
+                                    </td>
+                                    <td className={styles.totalText}>
+                                        {formatVND(Number(line.quantity) * Number(line.unit_price) || 0)} đ
+                                    </td>
+                                    <td style={{ textAlign: 'center' }}>
+                                        <button className={styles.actionBtn} onClick={() => removeLine(line.id)} title="Xóa dòng này">
+                                            ✕
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
-                <button
-                    className={styles.submitBtn}
-                    onClick={handleSubmit}
-                    disabled={isSubmitting}
-                >
-                    {isSubmitting ? "Đang tạo phiếu..." : "Tạo Phiếu Nhập Kho"}
+
+                <button className={styles.addBtn} onClick={addLine}>
+                    + Thêm dòng sản phẩm
                 </button>
+
+                <div className={styles.footer}>
+                    <div className={styles.grandTotal}>
+                        Tổng Tiền: {formatVND(grandTotal)} đ
+                    </div>
+                    <button
+                        className={styles.submitBtn}
+                        onClick={handleSubmit}
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting ? "Đang tạo phiếu..." : "Tạo Phiếu Nhập Kho"}
+                    </button>
+                </div>
             </div>
-        </div>
         </div>
     );
 }

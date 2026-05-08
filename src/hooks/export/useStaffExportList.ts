@@ -30,9 +30,9 @@ export const useStaffExportList = () => {
         }
     }, [fetchExports]);
 
-    const cancelExport = useCallback(async (id: number) => {
+    const cancelExport = useCallback(async (id: number, cancel_reason: string) => {
         try {
-            await exportApi.changeStatus(id, { status: 'cancelled' });
+            await exportApi.changeStatus(id, { status: 'cancelled', cancel_reason });
             message.success('Đã hủy đơn xuất kho');
             await fetchExports();
         } catch (err: any) {

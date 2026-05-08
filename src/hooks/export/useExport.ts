@@ -25,9 +25,9 @@ export const useExport = () => {
         }
     }, []);
 
-    const changeStatus = async (id: number, status: ExportStatus): Promise<boolean> => {
+    const changeStatus = async (id: number, status: ExportStatus, cancel_reason?: string): Promise<boolean> => {
         try {
-            await exportApi.changeStatus(id, { status });
+            await exportApi.changeStatus(id, { status, cancel_reason });
             const statusLabel: Record<ExportStatus, string> = {
                 pending: 'Chờ xử lý',
                 approved: 'Đã duyệt',

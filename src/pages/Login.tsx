@@ -15,7 +15,8 @@ import { useEffect } from 'react';
  * Login Page — Entry point của ứng dụng CRM VLXD.
  */
 export default function Login() {
-  const { loading, error, handleLogin } = useLogin();
+  const [form] = Form.useForm<LoginRequest>();
+  const { loading, error, handleLogin } = useLogin(form);
   useEffect(() => {
     document.title = 'Đăng nhập hệ thống';
   }, []);
@@ -52,6 +53,7 @@ export default function Login() {
 
         {/* ── Form ── */}
         <Form<LoginRequest>
+          form={form}
           onFinish={handleLogin}
           layout="vertical"
           size="large"

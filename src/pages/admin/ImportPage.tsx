@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {
     Card, Button, Typography, Space, Alert, Row, Col,
-    Statistic, Input, Tag, Tabs, message,
+    Statistic, Input, Tag, Tabs, message, Modal
 } from 'antd';
 import {
     PlusOutlined,
@@ -110,8 +110,31 @@ export default function ImportPage() {
 
     const handleApprove = (id: number) => changeStatus(id, 'approved');
     const handleComplete = (id: number) => changeStatus(id, 'completed');
-    const handleCancel = (id: number) => changeStatus(id, 'cancelled');
     const handleDelete = (id: number) => deleteImport(id);
+
+    // Cancel modal state
+    const [cancelModalOpen, setCancelModalOpen] = useState(false);
+    const [cancelingId, setCancelingId] = useState<number | null>(null);
+    const [cancelReason, setCancelReason] = useState('');
+
+    const handleCancelClick = (id: number) => {
+        setCancelingId(id);
+        setCancelReason('');
+        setCancelModalOpen(true);
+    };
+
+    const confirmCancel = async () => {
+        if (!cancelingId) return;
+        if (!cancelReason.trim()) {
+            message.error('Vui lòng nhập lý do huỷ phiếu nhập');
+            return;
+        }
+        setFormLoading(true);
+        await changeStatus(cancelingId, 'cancelled', cancelReason);
+        setFormLoading(false);
+        setCancelModalOpen(false);
+        setCancelingId(null);
+    };
 
     const handleExcelSubmit = async (file: File) => {
         setExcelLoading(true);
@@ -264,7 +287,7 @@ export default function ImportPage() {
                             onEdit={handleEdit}
                             onApprove={handleApprove}
                             onComplete={handleComplete}
-                            onCancel={handleCancel}
+                            onCancel={handleCancelClick}
                             onDelete={handleDelete}
                         />
                     </div>
@@ -292,6 +315,27 @@ export default function ImportPage() {
                     onSubmit={handleExcelSubmit}
                     onDownloadTemplate={handleDownloadTemplate}
                 />
+
+                <Modal
+                    title="Xác nhận huỷ phiếu nhập"
+                    open={cancelModalOpen}
+                    onOk={confirmCancel}
+                    onCancel={() => setCancelModalOpen(false)}
+                    confirmLoading={formLoading}
+                    okText="Xác nhận huỷ"
+                    cancelText="Đóng"
+                    okButtonProps={{ danger: true }}
+                >
+                    <Alert message="Lưu ý: Hành động này không thể hoàn tác." type="warning" showIcon style={{ marginBottom: 16 }} />
+                    <Typography.Text strong>Lý do huỷ đơn:</Typography.Text>
+                    <Input.TextArea
+                        rows={4}
+                        placeholder="Nhập lý do huỷ phiếu nhập..."
+                        value={cancelReason}
+                        onChange={(e) => setCancelReason(e.target.value)}
+                        style={{ marginTop: 8 }}
+                    />
+                </Modal>
             </div>
         </DashboardLayout>
     );

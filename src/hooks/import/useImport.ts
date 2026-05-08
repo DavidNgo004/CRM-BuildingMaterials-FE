@@ -55,9 +55,9 @@ export const useImport = () => {
         }
     };
 
-    const changeStatus = async (id: number, status: ImportStatus): Promise<boolean> => {
+    const changeStatus = async (id: number, status: ImportStatus, cancel_reason?: string): Promise<boolean> => {
         try {
-            await importApi.changeStatus(id, { status });
+            await importApi.changeStatus(id, { status, cancel_reason });
             const statusLabel: Record<ImportStatus, string> = {
                 pending: 'Chờ duyệt',
                 approved: 'Đã duyệt',
