@@ -7,9 +7,9 @@ import StaffLayout from "../../components/staff/StaffLayout";
 import styles from "./StaffDashboard.module.css";
 import {
     BarChartOutlined, WarningOutlined, ThunderboltOutlined,
-    ReloadOutlined, InboxOutlined, SendOutlined, AppstoreOutlined, AlertOutlined
+    ReloadOutlined, AlertOutlined
 } from "@ant-design/icons";
-import { Modal, Table, Tag } from "antd";
+import { Modal, Table, Tag, Select } from "antd";
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend
 } from "recharts";
@@ -142,8 +142,18 @@ function LowStockModal({ open, onClose, data }: {
 export default function StaffDashboard() {
     const { logout, user } = useAuth();
     const navigate = useNavigate();
-    const { kpi, stockChart, lowStockProducts, isLoading, refresh } = useStaffDashboard();
+    const { kpi, stockChart, lowStockProducts, isLoading, refresh, period, setPeriod } = useStaffDashboard();
     const [lowStockModalOpen, setLowStockModalOpen] = useState(false);
+
+    const getChartTitle = () => {
+        switch (period) {
+            case 'today': return 'Hôm nay';
+            case 'this_week': return 'Tuần này';
+            case 'this_month': return 'Tháng này';
+            case 'this_year': return 'Năm nay';
+            default: return 'Gần đây';
+        }
+    };
 
     useEffect(() => {
         document.title = "Dashboard - Kho VLXD";
@@ -225,8 +235,20 @@ export default function StaffDashboard() {
                     {/* ── Left: Bar Chart ── */}
                     <div className={styles.card}>
                         <div className={styles.cardHeader}>
-                            <h2 className={styles.cardTitle}><BarChartOutlined style={{ color: "#6366f1", marginRight: 8 }} />Biểu Đồ Nhập / Xuất Kho 10 Ngày Gần Nhất</h2>
-                            <span className={styles.cardTag}>10 ngày gần nhất</span>
+                            <h2 className={styles.cardTitle}><BarChartOutlined style={{ color: "#6366f1", marginRight: 8 }} />Biểu Đồ Nhập / Xuất Kho ({getChartTitle()})</h2>
+                            <Select
+                                value={period}
+                                onChange={(value) => setPeriod(value)}
+                                options={[
+                                    { value: 'today', label: 'Hôm nay' },
+                                    { value: 'this_week', label: 'Tuần này' },
+                                    { value: 'this_month', label: 'Tháng này' },
+                                    { value: 'this_year', label: 'Năm nay' },
+                                ]}
+                                style={{ width: 120 }}
+                                size="small"
+                                disabled={isLoading}
+                            />
                         </div>
                         {isLoading ? (
                             <div className={styles.chartSkeleton} />

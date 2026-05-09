@@ -10,7 +10,10 @@ interface StaffDashboardState {
   error: string | null;
 }
 
+export type DashboardPeriod = 'today' | 'this_week' | 'this_month' | 'this_year';
+
 export function useStaffDashboard() {
+  const [period, setPeriod] = useState<DashboardPeriod>('this_month');
   const [state, setState] = useState<StaffDashboardState>({
     kpi: null,
     stockChart: [],
@@ -19,10 +22,10 @@ export function useStaffDashboard() {
     error: null,
   });
 
-  const fetchAll = useCallback(async () => {
+  const fetchAll = useCallback(async (selectedPeriod: DashboardPeriod = period) => {
     setState(prev => ({ ...prev, isLoading: true, error: null }));
     try {
-      const res = await axiosClient.get("/dashboard/summary");
+      const res = await axiosClient.get(`/dashboard/summary?period=${selectedPeriod}`);
       const data = res.data;
 
       // Extract KPI
@@ -58,8 +61,12 @@ export function useStaffDashboard() {
   }, []);
 
   useEffect(() => {
-    fetchAll();
-  }, [fetchAll]);
+    fetchAll(period);
+  }, [fetchAll, period]);
 
-  return { ...state, refresh: fetchAll };
+  const handlePeriodChange = (newPeriod: DashboardPeriod) => {
+    setPeriod(newPeriod);
+  };
+
+  return { ...state, period, setPeriod: handlePeriodChange, refresh: () => fetchAll(period) };
 }

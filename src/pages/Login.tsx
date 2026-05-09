@@ -3,13 +3,13 @@ import favicon from '../assets/favicon.png';
 import {
   UserOutlined,
   LockOutlined,
-  ShopOutlined,
   LoadingOutlined,
 } from '@ant-design/icons';
 import { useLogin } from '../hooks/auth/useLogin';
 import type { LoginRequest } from '../types/auth';
 import '../styles/auth.css';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 /**
  * Login Page — Entry point của ứng dụng CRM VLXD.
@@ -78,6 +78,7 @@ export default function Login() {
             name="password"
             label="Mật khẩu"
             rules={[{ required: true, message: 'Vui lòng nhập mật khẩu' }]}
+            style={{ marginBottom: 8 }}
           >
             <Input.Password
               prefix={<LockOutlined />}
@@ -86,7 +87,13 @@ export default function Login() {
             />
           </Form.Item>
 
-          <Form.Item style={{ marginBottom: 0, marginTop: 8 }}>
+          <div style={{ textAlign: 'right', marginBottom: 24 }}>
+            <Link to="/forgot-password" style={{ color: '#1890ff', fontSize: '14px' }}>
+              Quên mật khẩu?
+            </Link>
+          </div>
+
+          <Form.Item style={{ marginBottom: 0 }}>
             <button
               type="submit"
               className="auth-btn"
@@ -95,7 +102,7 @@ export default function Login() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 8,
+                gap: 6,
                 cursor: loading ? 'not-allowed' : 'pointer',
                 border: 'none',
               }}

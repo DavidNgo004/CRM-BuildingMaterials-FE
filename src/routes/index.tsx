@@ -12,6 +12,8 @@ import ExportPage from '../pages/admin/ExportPage';
 // ─── Lazy-loaded pages ────────────────────────────────────────────────────────
 
 const Login = lazy(() => import('../pages/Login'));
+const ForgotPassword = lazy(() => import('../pages/auth/ForgotPassword'));
+const ResetPassword = lazy(() => import('../pages/auth/ResetPassword'));
 const ProfilePage = lazy(() => import('../pages/auth/ProfilePage'));
 const StaffManagementPage = lazy(() => import('../pages/admin/StaffManagementPage'));
 const AdminDashboard = lazy(() => import('../pages/admin/Dashboard'));
@@ -78,6 +80,25 @@ export default function AppRoutes() {
               </LoginGuard>
             }
           />
+
+          <Route
+            path="/forgot-password"
+            element={
+              <LoginGuard>
+                <ForgotPassword />
+              </LoginGuard>
+            }
+          />
+
+          <Route
+            path="/reset-password"
+            element={
+              <LoginGuard>
+                <ResetPassword />
+              </LoginGuard>
+            }
+          />
+
 
           {/* Redirect gốc — thông minh theo role */}
           <Route path="/" element={<RootRedirect />} />

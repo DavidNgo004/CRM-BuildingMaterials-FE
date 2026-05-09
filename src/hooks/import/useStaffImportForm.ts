@@ -30,8 +30,8 @@ export const useStaffImportForm = () => {
     const fetchData = useCallback(async () => {
         try {
             const [supRes, prodRes] = await Promise.all([
-                supplierApi.getAll({ per_page: 999 }),
-                productApi.getAll({ per_page: 999 })
+                supplierApi.getAll({ per_page: 999, status: 1 }),
+                productApi.getAll({ per_page: 999, status: 1 })
             ]);
             const sData = supRes.data?.data || supRes.data || [];
             const pData = prodRes.data?.data || prodRes.data || [];

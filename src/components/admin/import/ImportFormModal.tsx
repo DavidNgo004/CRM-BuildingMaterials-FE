@@ -54,7 +54,7 @@ export default function ImportFormModal({ open, loading, editingImport, onSubmit
     // Load products + prefill when modal opens
     useEffect(() => {
         if (open) {
-            productApi.getAll({ per_page: 999 }).then((res: any) => {
+            productApi.getAll({ per_page: 999, status: 1 }).then((res: any) => {
                 const raw = res.data;
                 const list = Array.isArray(raw) ? raw : (raw?.data || []);
                 setProducts(list);

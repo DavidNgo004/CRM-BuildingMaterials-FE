@@ -6,6 +6,8 @@ import type {
   CreateStaffRequest,
   UpdateStaffRequest,
   ChangePasswordRequest,
+  ForgotPasswordRequest,
+  ResetPasswordRequest,
   Staff,
 } from '../../types/auth';
 import axios from 'axios';
@@ -22,6 +24,13 @@ export const authApi = {
    */
   login: (data: LoginRequest) =>
     axiosClient.post<LoginResponse>('/login', data),
+
+  forgotPassword: (data: ForgotPasswordRequest) =>
+    axiosClient.post<{ message: string }>('/forgot-password', data),
+
+  resetPassword: (data: ResetPasswordRequest) =>
+    axiosClient.post<{ message: string }>('/reset-password', data),
+
 
   /**
    * Lấy profile người dùng hiện tại — GET /profile

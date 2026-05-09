@@ -39,7 +39,7 @@ export const useStaffExportForm = () => {
         try {
             const [custRes, prodRes] = await Promise.all([
                 customerApi.getAll({ per_page: 999 }),
-                productApi.getAll({ per_page: 999 })
+                productApi.getAll({ per_page: 999, status: 1 })
             ]);
             const cData = custRes.data?.data || custRes.data || [];
             const pData = prodRes.data?.data || prodRes.data || [];
