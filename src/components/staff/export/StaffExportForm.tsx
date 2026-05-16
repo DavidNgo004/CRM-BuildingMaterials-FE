@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styles from "./StaffExportForm.module.css";
 import { useStaffExportForm } from "../../../hooks/export/useStaffExportForm";
 import { Switch, Select, Input, Typography } from "antd";
@@ -9,7 +9,7 @@ export default function StaffExportForm() {
     const {
         customers, products,
         customerId, setCustomerId,
-        exportDate, setExportDate,
+
         lines,
         note,
         setNote,

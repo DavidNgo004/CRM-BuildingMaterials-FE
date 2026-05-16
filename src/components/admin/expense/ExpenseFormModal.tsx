@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Modal, Form, Input, InputNumber, DatePicker, Select } from 'antd';
 import dayjs from 'dayjs';
 import type { Expense, ExpenseFormData } from '../../../types/Admin/expense';

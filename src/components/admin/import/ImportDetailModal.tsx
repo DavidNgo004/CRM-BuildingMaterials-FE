@@ -1,4 +1,4 @@
-import { Modal, Table, Tag, Typography, Descriptions, Divider, Space } from 'antd';
+import { Modal, Table, Tag, Typography, Descriptions, Space } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { Import, ImportDetail, ImportStatus } from '../../../types/Admin/import';
 

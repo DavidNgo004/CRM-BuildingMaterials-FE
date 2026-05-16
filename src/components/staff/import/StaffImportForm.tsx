@@ -19,9 +19,7 @@ interface AISuggestion {
 
 export default function StaffImportForm() {
     const {
-        suppliers, products,
-        supplierId, setSupplierId,
-        importDate, setImportDate,
+        products,
         lines,
         note,
         setNote,

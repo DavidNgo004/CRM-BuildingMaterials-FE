@@ -30,7 +30,7 @@ export default function StaffProductPage() {
         document.title = 'Quản lý sản phẩm - Nhân viên kho';
     }, []);
     const { products, loading, error, fetchProducts, updateProduct } = useProduct();
-    const { user, logout } = useAuth();
+    const { logout } = useAuth();
     const navigate = useNavigate();
 
     const [modalOpen, setModalOpen] = useState(false);

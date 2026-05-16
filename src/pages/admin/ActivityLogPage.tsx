@@ -250,7 +250,7 @@ export default function ActivityLogPage() {
                             <Descriptions.Item label="Action">{detailModal.data.action}</Descriptions.Item>
                         </Descriptions>
 
-                        <Divider orientation="start" plain>
+                        <Divider plain>
                             <Space><SwapOutlined /> <Text strong>So sánh Dữ liệu Trước & Sau</Text></Space>
                         </Divider>
 

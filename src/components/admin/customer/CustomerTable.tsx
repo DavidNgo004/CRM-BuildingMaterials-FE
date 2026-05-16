@@ -2,7 +2,6 @@ import { Table, Button, Tag, Popconfirm, Space, Tooltip, Typography } from 'antd
 import {
   EditOutlined,
   DeleteOutlined,
-  UserOutlined,
   PhoneOutlined,
   EnvironmentOutlined,
 } from '@ant-design/icons';

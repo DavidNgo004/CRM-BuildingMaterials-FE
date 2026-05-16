@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { supplierApi } from "../../api/supplier/supplierApi";
 import type { Supplier, CreateSupplierRequest, UpdateSupplierRequest } from "../../types/Admin/supplier";
 import { message } from "antd";

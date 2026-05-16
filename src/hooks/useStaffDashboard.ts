@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import axiosClient from "../api/axiosClient";
-import type { StaffKpi, StockChartPoint, LowStockProduct } from "../types/staff/staffDashboard";
+import type { StaffKpi, LowStockProduct } from "../types/staff/staffDashboard";
 
 interface StaffDashboardState {
   kpi: StaffKpi | null;
