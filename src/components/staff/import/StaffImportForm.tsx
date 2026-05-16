@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./StaffImportForm.module.css";
 import { useStaffImportForm } from "../../../hooks/import/useStaffImportForm";
 import axiosClient from "../../../api/axiosClient";
-import { Card, Space, Tag, Typography, Button, Tooltip, Select } from "antd";
+import { Card, Space, Tag, Typography, Button, Tooltip, Select, Input } from "antd";
 import { RobotOutlined, BulbOutlined, ArrowDownOutlined } from "@ant-design/icons";
 
 const { Text } = Typography;
@@ -22,7 +22,11 @@ export default function StaffImportForm() {
         suppliers, products,
         supplierId, setSupplierId,
         importDate, setImportDate,
-        lines, isSubmitting, grandTotal,
+        lines,
+        note,
+        setNote,
+        isSubmitting,
+        grandTotal,
         fetchData, addLine, removeLine, updateLine, addFromSuggestion, handleSubmit
     } = useStaffImportForm();
 
@@ -62,7 +66,16 @@ export default function StaffImportForm() {
                         </Tag>
                     </Space>
                 }
-                style={{ background: '#f5f3ff', borderColor: '#a78bfa' }}
+                styles={{
+                    body: {
+                        overflowX: 'auto',
+                        padding: '12px',
+                        scrollbarWidth: 'thin',
+                        scrollbarColor: '#a78bfa transparent',
+                        maxWidth: '80vw'
+                    }
+                }}
+                style={{ background: '#f5f3ff', borderColor: '#a78bfa', minWidth: 0 }}
                 loading={aiLoading}
                 extra={
                     <Button size="small" icon={<RobotOutlined />} onClick={fetchAiSuggestions}>
@@ -73,12 +86,7 @@ export default function StaffImportForm() {
                 {suggestions.length === 0 && !aiLoading ? (
                     <Text type="secondary">Tồn kho đang ở mức an toàn, không có gợi ý nhập hàng.</Text>
                 ) : (
-                    <div style={{
-                        display: 'flex',
-                        gap: 8,
-                        overflowX: 'auto',
-                        paddingBottom: 4,
-                    }}>
+                    <div style={{ display: 'flex', gap: 12 }}>
                         {suggestions.map(s => (
                             <Card
                                 key={s.product_id}
@@ -117,6 +125,7 @@ export default function StaffImportForm() {
                     </div>
                 )}
             </Card>
+
 
             <div className={styles.card}>
                 {/* Form Product List Table */}
@@ -194,6 +203,18 @@ export default function StaffImportForm() {
                     <div className={styles.grandTotal}>
                         Tổng Tiền: {formatVND(grandTotal)} đ
                     </div>
+
+                    <div className={styles.noteSection} style={{ width: '100%', marginTop: 8 }}>
+                        <Text strong style={{ display: 'block', marginBottom: 8 }}>Ghi chú phiếu nhập:</Text>
+                        <Input.TextArea
+                            rows={3}
+                            placeholder="Nhập ghi chú cho phiếu nhập này (tùy chọn)..."
+                            value={note}
+                            onChange={e => setNote(e.target.value)}
+                            style={{ borderRadius: 8 }}
+                        />
+                    </div>
+
                     <button
                         className={styles.submitBtn}
                         onClick={handleSubmit}

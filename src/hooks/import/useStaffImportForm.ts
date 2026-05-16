@@ -24,6 +24,7 @@ export const useStaffImportForm = () => {
     const [lines, setLines] = useState<StaffImportLine[]>([
         { id: Date.now(), product_id: "", quantity: 1, unit_price: 0 }
     ]);
+    const [note, setNote] = useState<string>('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     
     // Fetch initial data
@@ -99,7 +100,7 @@ export const useStaffImportForm = () => {
             const supplierName = suppliers.find(s => s.id === Number(supplierId))?.name || 'Chưa chọn';
             
             const importData: StoreImportRequest = {
-                note: `Nhà CC: ${supplierName} - Ngày nhập: ${importDate}`,
+                note: note.trim() || `Nhà CC: ${supplierName} - Ngày nhập: ${importDate}`,
                 details: validLines.map(l => ({
                     product_id: Number(l.product_id),
                     quantity: Number(l.quantity),
@@ -112,6 +113,7 @@ export const useStaffImportForm = () => {
             message.success("Tạo phiếu nhập thành công!");
             setLines([{ id: Date.now(), product_id: "", quantity: 1, unit_price: 0 }]);
             setSupplierId("");
+            setNote("");
         } catch (error: unknown) {
             const err = error as { response?: { data?: { message?: string } } };
             message.error(err.response?.data?.message || "Lỗi khi tạo phiếu nhập");
@@ -129,6 +131,8 @@ export const useStaffImportForm = () => {
         importDate,
         setImportDate,
         lines,
+        note,
+        setNote,
         isSubmitting,
         grandTotal,
         // Actions

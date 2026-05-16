@@ -32,6 +32,7 @@ export const useStaffExportForm = () => {
     const [lines, setLines] = useState<StaffExportLine[]>([
         { id: Date.now(), product_id: "", quantity: 1, unit_price: 0 }
     ]);
+    const [note, setNote] = useState<string>('');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     // Fetch initial data
@@ -110,7 +111,7 @@ export const useStaffExportForm = () => {
 
             const exportData: StoreExportRequest = {
                 customer_id: finalCustomerId!,
-                note: `Ngày xuất: ${exportDate}`,
+                note: note.trim() || `Ngày xuất: ${exportDate}`,
                 discount_amount: 0,
                 details: validLines.map(l => ({
                     product_id: Number(l.product_id),
@@ -123,6 +124,7 @@ export const useStaffExportForm = () => {
             message.success("Tạo phiếu xuất thành công!");
             setLines([{ id: Date.now(), product_id: "", quantity: 1, unit_price: 0 }]);
             setCustomerId("");
+            setNote("");
             setNewCustomerName('');
             setNewCustomerPhone('');
             setNewCustomerAddress('');
@@ -144,8 +146,13 @@ export const useStaffExportForm = () => {
         // State
         customers, products,
         customerId, setCustomerId,
-        exportDate, setExportDate,
-        lines, isSubmitting, grandTotal,
+        exportDate,
+        setExportDate,
+        lines,
+        note,
+        setNote,
+        isSubmitting,
+        grandTotal,
         isNewCustomer, setIsNewCustomer,
         newCustomerName, setNewCustomerName,
         newCustomerPhone, setNewCustomerPhone,

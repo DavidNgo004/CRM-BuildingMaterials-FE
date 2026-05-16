@@ -110,7 +110,7 @@ export default function ImportExcelModal({
             centered
             destroyOnClose
             styles={{
-                content: {
+                body: {
                     borderRadius: 20,
                     padding: 0,
                     overflow: 'hidden',

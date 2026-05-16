@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
 import styles from "./StaffExportForm.module.css";
 import { useStaffExportForm } from "../../../hooks/export/useStaffExportForm";
-import { Switch, Select } from "antd";
+import { Switch, Select, Input, Typography } from "antd";
+
+const { Text } = Typography;
 
 export default function StaffExportForm() {
     const {
         customers, products,
         customerId, setCustomerId,
         exportDate, setExportDate,
-        lines, isSubmitting, grandTotal,
+        lines,
+        note,
+        setNote,
+        isSubmitting, grandTotal,
         fetchData, addLine, removeLine, updateLine, handleSubmit,
         // New customer fields
         newCustomerName, setNewCustomerName,
@@ -190,6 +195,18 @@ export default function StaffExportForm() {
                 <div className={styles.grandTotal}>
                     Tổng Tiền: {formatVND(grandTotal)} đ
                 </div>
+
+                <div className={styles.noteSection} style={{ width: '100%', marginTop: 8 }}>
+                    <Text strong style={{ display: 'block', marginBottom: 8 }}>Ghi chú phiếu xuất:</Text>
+                    <Input.TextArea
+                        rows={3}
+                        placeholder="Nhập ghi chú cho phiếu xuất này (tùy chọn)..."
+                        value={note}
+                        onChange={e => setNote(e.target.value)}
+                        style={{ borderRadius: 8 }}
+                    />
+                </div>
+
                 <button
                     className={styles.submitBtn}
                     onClick={handleSubmit}

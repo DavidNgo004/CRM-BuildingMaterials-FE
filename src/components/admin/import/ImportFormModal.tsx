@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import {
-    Modal, Form, Select, InputNumber, Button,
+    Modal, Form, Select, InputNumber, Button, Input,
     Table, Typography, Space, Divider, Alert,
     Card, Tag, Tooltip,
 } from 'antd';
@@ -368,17 +368,12 @@ export default function ImportFormModal({ open, loading, editingImport, onSubmit
             {/* ── Footer: Note + Discount + Total ── */}
             <Form form={form} layout="vertical">
                 <div style={{ display: 'flex', gap: 16 }}>
-                    <Form.Item name="note" label="Ghi chú phiếu nhập" style={{ flex: 1 }}>
-                        <textarea
-                            rows={2}
-                            placeholder="Nhập ghi chú..."
+                    <Form.Item name="note" label={<Text strong>Ghi chú phiếu nhập</Text>} style={{ flex: 1 }}>
+                        <Input.TextArea
+                            rows={3}
+                            placeholder="Nhập ghi chú cho phiếu nhập này (tùy chọn)..."
                             style={{
-                                width: '90%',
-                                padding: '4px 11px',
-                                border: '1px solid #d9d9d9',
-                                borderRadius: 6,
-                                fontFamily: 'inherit',
-                                fontSize: 14,
+                                borderRadius: 8,
                                 resize: 'none',
                             }}
                         />
