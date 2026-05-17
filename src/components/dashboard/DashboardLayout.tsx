@@ -3,7 +3,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import type { DashboardPeriod } from "../../types/Admin/dashboard";
 import styles from "./DashboardLayout.module.css";
 import favicon from "../../assets/favicon.png";
-import { UserOutlined, LogoutOutlined } from "@ant-design/icons";
+import { UserOutlined, LogoutOutlined, MenuOutlined } from "@ant-design/icons";
+import { Drawer } from "antd";
 import { useAuth } from "../../store/authContext";
 
 const PERIOD_OPTIONS: { label: string; value: DashboardPeriod }[] = [
@@ -39,6 +40,7 @@ export default function DashboardLayout({
   const userName = propUserName || user?.name || "Admin";
 
   const [openMenu, setOpenMenu] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
@@ -66,10 +68,18 @@ export default function DashboardLayout({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Close mobile drawer on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [path]);
+
   return (
     <div className={styles.root}>
       <header className={styles.topbar}>
         <div className={styles.topbarLeft}>
+          <button className={styles.mobileMenuBtn} onClick={() => setMobileMenuOpen(true)}>
+            <MenuOutlined />
+          </button>
           <Link to="/admin/dashboard" className={styles.navLink}>
             <div className={styles.logo}>
               <span className={styles.logoIcon}>
@@ -172,6 +182,28 @@ export default function DashboardLayout({
       <main className={styles.content}>
         {children}
       </main>
+
+      <Drawer
+        title="CRM VLXD"
+        placement="left"
+        onClose={() => setMobileMenuOpen(false)}
+        open={mobileMenuOpen}
+        width={250}
+        bodyStyle={{ padding: '16px 0' }}
+      >
+        <div className={styles.mobileNav}>
+          <Link to="/admin/dashboard" className={`${styles.mobileNavLink} ${path === '/admin/dashboard' ? styles.mobileNavLinkActive : ''}`}>Dashboard</Link>
+          <Link to="/admin/staff-management" className={`${styles.mobileNavLink} ${path.includes('/staff-management') ? styles.mobileNavLinkActive : ''}`}>Tài khoản</Link>
+          <Link to="/admin/import-management" className={`${styles.mobileNavLink} ${path.includes('/import-management') ? styles.mobileNavLinkActive : ''}`}>Nhập Kho</Link>
+          <Link to="/admin/export-management" className={`${styles.mobileNavLink} ${path.includes('/export-management') ? styles.mobileNavLinkActive : ''}`}>Xuất Kho</Link>
+          <Link to="/admin/product-management" className={`${styles.mobileNavLink} ${path.includes('/product-management') ? styles.mobileNavLinkActive : ''}`}>Sản phẩm</Link>
+          <Link to="/admin/supplier-management" className={`${styles.mobileNavLink} ${path.includes('/supplier-management') ? styles.mobileNavLinkActive : ''}`}>Nhà cung cấp</Link>
+          <Link to="/admin/customer-management" className={`${styles.mobileNavLink} ${path.includes('/customer-management') ? styles.mobileNavLinkActive : ''}`}>Khách hàng</Link>
+          <Link to="/admin/report-management" className={`${styles.mobileNavLink} ${path.includes('/report-management') ? styles.mobileNavLinkActive : ''}`}>Báo cáo</Link>
+          <Link to="/admin/expense-management" className={`${styles.mobileNavLink} ${path.includes('/expense-management') ? styles.mobileNavLinkActive : ''}`}>Chi phí vận hành</Link>
+          <Link to="/admin/activity-log" className={`${styles.mobileNavLink} ${path.includes('/activity-log') ? styles.mobileNavLinkActive : ''}`}>Lịch sử</Link>
+        </div>
+      </Drawer>
     </div>
   );
 }
