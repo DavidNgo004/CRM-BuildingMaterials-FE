@@ -300,3 +300,89 @@ body,
   color: #6366f1;
   border: 1px solid rgba(99, 102, 241, 0.2);
 }
+
+/* ─── Responsive Adjustments for Internal Pages ──────────────────────────── */
+
+@media (max-width: 768px) {
+  .auth-inner-page {
+    padding: 12px;
+  }
+  
+  .auth-inner-page-card {
+    padding: 12px;
+  }
+
+  .auth-page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .auth-page-header .ant-space {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  
+  .auth-page-header .ant-input-search {
+    width: 100% !important;
+  }
+
+  /* Make sure any stats cards in a flex container wrap */
+  .auth-inner-page > div[style*="display: flex"] {
+    flex-direction: column;
+  }
+  .auth-inner-page > div[style*="display: flex"] > .ant-card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 32px 24px 24px;
+    margin: 16px;
+  }
+}
+
+/* ─── Global Ant Design Overrides for Mobile (< 768px) ────────────────────── */
+@media (max-width: 768px) {
+  /* Modals should take up most of the screen */
+  .ant-modal {
+    width: 95% !important;
+    max-width: 95vw !important;
+    margin: 0 auto;
+  }
+
+  /* Make sure Space horizontal wraps on small screens if they have many buttons */
+  .ant-space-horizontal {
+    flex-wrap: wrap !important;
+  }
+
+  /* For any flex containers that act as toolbars or stats rows */
+  div[style*="display: flex"] {
+    flex-wrap: wrap;
+  }
+
+  /* Reduce padding on cards for small screens */
+  .ant-card-body {
+    padding: 12px !important;
+  }
+
+  /* Make sure columns in tables don't squash too much */
+  .ant-table-wrapper {
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 576px) {
+  /* Adjust title sizes on small screens */
+  .ant-typography h4, 
+  h4.ant-typography {
+    font-size: 16px !important;
+  }
+  
+  /* Make buttons fill width in certain toolbars */
+  .auth-page-header .ant-btn {
+    width: 100%;
+    margin-top: 8px;
+  }
+}
