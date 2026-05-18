@@ -287,9 +287,12 @@ export default function ImportFormModal({ open, loading, editingImport, onSubmit
                 ) : (
                     <div style={{
                         display: 'flex',
+                        flexWrap: 'nowrap',
                         gap: 8,
                         overflowX: 'auto',
-                        paddingBottom: 4,
+                        paddingBottom: 8,
+                        width: '100%',
+                        WebkitOverflowScrolling: 'touch'
                     }}>
                         {suggestions.map(s => (
                             <Card

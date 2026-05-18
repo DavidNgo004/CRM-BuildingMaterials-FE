@@ -64,16 +64,7 @@ export default function StaffImportForm() {
                         </Tag>
                     </Space>
                 }
-                styles={{
-                    body: {
-                        overflowX: 'auto',
-                        padding: '12px',
-                        scrollbarWidth: 'thin',
-                        scrollbarColor: '#a78bfa transparent',
-                        maxWidth: '80vw'
-                    }
-                }}
-                style={{ background: '#f5f3ff', borderColor: '#a78bfa', minWidth: 0 }}
+                style={{ background: '#f5f3ff', borderColor: '#a78bfa', width: '100%', overflow: 'hidden' }}
                 loading={aiLoading}
                 extra={
                     <Button size="small" icon={<RobotOutlined />} onClick={fetchAiSuggestions}>
@@ -84,7 +75,15 @@ export default function StaffImportForm() {
                 {suggestions.length === 0 && !aiLoading ? (
                     <Text type="secondary">Tồn kho đang ở mức an toàn, không có gợi ý nhập hàng.</Text>
                 ) : (
-                    <div style={{ display: 'flex', gap: 12 }}>
+                    <div style={{
+                        display: 'flex',
+                        flexWrap: 'nowrap',
+                        gap: 12,
+                        overflowX: 'auto',
+                        paddingBottom: 8,
+                        width: '100%',
+                        WebkitOverflowScrolling: 'touch'
+                    }}>
                         {suggestions.map(s => (
                             <Card
                                 key={s.product_id}

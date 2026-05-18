@@ -177,3 +177,31 @@
   background: #ede9fe;
   border-color: #8b5cf6;
 }
+
+@media (max-width: 768px) {
+  .card {
+    padding: 16px 12px;
+  }
+  .formGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .table th, .table td {
+    padding: 10px 8px;
+    font-size: 13px;
+  }
+  .footer {
+    align-items: stretch;
+    width: 100%;
+    margin-top: 24px;
+  }
+  .submitBtn {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 15px;
+  }
+  .grandTotal {
+    font-size: 18px;
+    text-align: right;
+  }
+}
