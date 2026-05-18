@@ -146,7 +146,7 @@ export default function StaffTable({ staffs, loading, onEdit, onDelete, onToggle
       loading={loading}
       rowKey="id"
       pagination={{ pageSize: 10, showSizeChanger: false }}
-      scroll={{ x: 600 }}
+      scroll={{ x: 'max-content' }}
       locale={{ emptyText: 'Chưa có nhân viên kho nào' }}
     />
   );

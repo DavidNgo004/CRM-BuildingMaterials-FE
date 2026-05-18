@@ -231,7 +231,7 @@ export default function StaffExportListTab() {
                 dataSource={filtered}
                 rowKey="id"
                 loading={loading}
-                scroll={{ x: 700 }}
+                scroll={{ x: 'max-content' }}
                 pagination={{ pageSize: 10, showSizeChanger: false }}
                 size="small"
             />

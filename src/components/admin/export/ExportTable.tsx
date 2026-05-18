@@ -233,7 +233,7 @@ export default function ExportTable({
             loading={loading}
             rowKey="id"
             pagination={{ showTotal: (total) => `Tổng ${total} phiếu` }}
-            scroll={{ x: 1200 }}
+            scroll={{ x: 'max-content' }}
             rowClassName={(record) =>
                 record.status === 'cancelled' ? 'ant-table-row-cancelled' : ''
             }

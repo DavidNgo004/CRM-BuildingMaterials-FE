@@ -346,7 +346,7 @@ export default function ImportFormModal({ open, loading, editingImport, onSubmit
                 rowKey="_key"
                 pagination={false}
                 size="small"
-                scroll={{ x: 800 }}
+                scroll={{ x: 'max-content' }}
                 locale={{ emptyText: 'Thêm sản phẩm từ gợi ý AI hoặc nhấn "Thêm dòng"' }}
                 summary={() => (
                     <Table.Summary>
@@ -367,8 +367,8 @@ export default function ImportFormModal({ open, loading, editingImport, onSubmit
 
             {/* ── Footer: Note + Discount + Total ── */}
             <Form form={form} layout="vertical">
-                <div style={{ display: 'flex', gap: 16 }}>
-                    <Form.Item name="note" label={<Text strong>Ghi chú phiếu nhập</Text>} style={{ flex: 1 }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+                    <Form.Item name="note" label={<Text strong>Ghi chú phiếu nhập</Text>} style={{ flex: '1 1 300px' }}>
                         <Input.TextArea
                             rows={3}
                             placeholder="Nhập ghi chú cho phiếu nhập này (tùy chọn)..."

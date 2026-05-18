@@ -57,10 +57,30 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 body {
   margin: 0;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* ── Global Layout Fixes for Mobile & Tables ── */
+/* Ensure tables are scrollable and don't break parent containers */
+.ant-table-wrapper {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* Card components should shrink properly on mobile */
+.ant-card {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.ant-card-body {
+  overflow-x: auto;
 }
 
 h1,

@@ -78,7 +78,7 @@ export default function StaffInventoryTable({ logs, loading }: StaffInventoryTab
             rowKey="id" 
             loading={loading}
             pagination={{ pageSize: 15 }}
-            scroll={{ x: 600 }}
+            scroll={{ x: 'max-content' }}
             style={{ borderRadius: 12, overflow: 'hidden' }}
         />
     );

@@ -238,7 +238,7 @@ export default function ImportTable({
             loading={loading}
             rowKey="id"
             pagination={{ pageSize: 10, showTotal: (total) => `Tổng ${total} phiếu` }}
-            scroll={{ x: 1100 }}
+            scroll={{ x: 'max-content' }}
             rowClassName={(record) =>
                 record.status === 'cancelled' ? 'ant-table-row-cancelled' : ''
             }

@@ -141,7 +141,7 @@ export default function ProductTable({ products, loading, onEdit, onDelete }: Pr
             rowKey="id" 
             loading={loading}
             pagination={{ pageSize: 10 }}
-            scroll={{ x: 900 }}
+            scroll={{ x: 'max-content' }}
             style={{ borderRadius: 8, overflow: 'hidden' }}
         />
     );

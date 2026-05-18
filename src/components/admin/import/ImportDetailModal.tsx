@@ -91,7 +91,7 @@ export default function ImportDetailModal({ open, record, onClose }: Props) {
         >
             <Descriptions
                 size="small"
-                column={2}
+                column={{ xs: 1, sm: 2 }}
                 style={{ marginBottom: 16 }}
                 bordered
             >
@@ -123,7 +123,7 @@ export default function ImportDetailModal({ open, record, onClose }: Props) {
                 rowKey="id"
                 pagination={false}
                 size="small"
-                scroll={{ x: 600 }}
+                scroll={{ x: 'max-content' }}
                 summary={() => (
                     <Table.Summary fixed>
                         <Table.Summary.Row>

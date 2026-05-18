@@ -161,7 +161,7 @@ export default function ExpenseTable({
       rowKey="id"
       loading={loading}
       pagination={pagination}
-      scroll={{ x: 900 }}
+      scroll={{ x: 'max-content' }}
       style={{ borderRadius: 8, overflow: 'hidden' }}
     />
   );

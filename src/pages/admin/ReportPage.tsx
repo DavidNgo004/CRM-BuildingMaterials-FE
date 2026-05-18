@@ -153,7 +153,7 @@ export default function AdminReportPage() {
                         dataSource={reports}
                         rowKey="id"
                         loading={loading}
-                        scroll={{ x: 700 }}
+                        scroll={{ x: 'max-content' }}
                         pagination={{ pageSize: 10 }}
                         rowClassName={(r: Report) => r.status === 'pending' ? 'report-row-pending' : ''}
                     />

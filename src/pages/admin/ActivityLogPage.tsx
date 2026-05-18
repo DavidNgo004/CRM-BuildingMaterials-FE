@@ -243,7 +243,7 @@ export default function ActivityLogPage() {
             >
                 {detailModal.data && (
                     <div>
-                        <Descriptions bordered column={2} size="small">
+                        <Descriptions bordered column={{ xs: 1, sm: 2 }} size="small">
                             <Descriptions.Item label="Thời gian">{dayjs(detailModal.data.created_at).format('DD/MM/YYYY HH:mm:ss')}</Descriptions.Item>
                             <Descriptions.Item label="Người làm">{detailModal.data.user_name} ({detailModal.data.user_role})</Descriptions.Item>
                             <Descriptions.Item label="IP">{detailModal.data.ip_address}</Descriptions.Item>
@@ -254,12 +254,12 @@ export default function ActivityLogPage() {
                             <Space><SwapOutlined /> <Text strong>So sánh Dữ liệu Trước & Sau</Text></Space>
                         </Divider>
 
-                        <div style={{ display: 'flex', gap: '16px' }}>
-                            <div style={{ flex: 1 }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                            <div style={{ flex: 1, overflowX: 'auto' }}>
                                 <Text type="secondary" strong>Dữ liệu TRƯỚC (Before):</Text>
                                 {renderJson(detailModal.data.old_data)}
                             </div>
-                            <div style={{ flex: 1 }}>
+                            <div style={{ flex: 1, overflowX: 'auto' }}>
                                 <Text strong style={{ color: '#10b981' }}>Dữ liệu SAU (After):</Text>
                                 {renderJson(detailModal.data.new_data)}
                             </div>

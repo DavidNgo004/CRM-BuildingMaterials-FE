@@ -160,7 +160,7 @@ export default function SupplierTable({ suppliers, loading, onEdit, onDelete }: 
             loading={loading}
             rowKey="id"
             pagination={{ pageSize: 10, showSizeChanger: false }}
-            scroll={{ x: 800 }}
+            scroll={{ x: 'max-content' }}
             locale={{ emptyText: 'Chưa có nhà cung cấp nào' }}
         />
     );

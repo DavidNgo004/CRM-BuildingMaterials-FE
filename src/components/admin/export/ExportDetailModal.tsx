@@ -96,7 +96,7 @@ export default function ExportDetailModal({ open, record, onClose }: Props) {
             width={860}
         >
             {/* Thông tin chung */}
-            <Descriptions size="small" column={2} style={{ marginBottom: 16 }} bordered>
+            <Descriptions size="small" column={{ xs: 1, sm: 2 }} style={{ marginBottom: 16 }} bordered>
                 <Descriptions.Item label="Mã phiếu">
                     <Tag color="cyan">{record.code}</Tag>
                 </Descriptions.Item>
@@ -139,7 +139,7 @@ export default function ExportDetailModal({ open, record, onClose }: Props) {
                 rowKey="id"
                 pagination={false}
                 size="small"
-                scroll={{ x: 680 }}
+                scroll={{ x: 'max-content' }}
                 summary={() => (
                     <Table.Summary fixed>
                         <Table.Summary.Row>
@@ -176,7 +176,7 @@ export default function ExportDetailModal({ open, record, onClose }: Props) {
 
             {/* Tóm tắt tài chính */}
             <Divider style={{ margin: '16px 0 8px' }} />
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 32 }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', flexWrap: 'wrap', gap: 16 }}>
                 <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: 12, color: '#6b7280' }}>Doanh thu</div>
                     <div style={{ fontWeight: 700, color: '#0ea5e9', fontSize: 15 }}>

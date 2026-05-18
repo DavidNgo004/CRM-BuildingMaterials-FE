@@ -116,7 +116,7 @@ export default function CustomerTable({ customers, loading, onEdit, onDelete }: 
       loading={loading}
       rowKey="id"
       pagination={{ pageSize: 10 }}
-      scroll={{ x: 800 }}
+      scroll={{ x: 'max-content' }}
     />
   );
 }

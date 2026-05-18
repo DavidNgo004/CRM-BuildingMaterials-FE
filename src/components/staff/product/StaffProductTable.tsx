@@ -126,7 +126,7 @@ export default function StaffProductTable({ products, loading, onEdit }: StaffPr
             rowKey="id" 
             loading={loading}
             pagination={{ pageSize: 10 }}
-            scroll={{ x: 900 }}
+            scroll={{ x: 'max-content' }}
             style={{ borderRadius: 8, overflow: 'hidden' }}
         />
     );
