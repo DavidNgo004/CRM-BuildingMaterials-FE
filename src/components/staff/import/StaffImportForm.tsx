@@ -51,7 +51,7 @@ export default function StaffImportForm() {
     const formatVND = (amount: number) => new Intl.NumberFormat('vi-VN').format(amount);
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', minWidth: 0, width: '100%', overflow: 'hidden' }}>
             {/* ── AI Suggestions Panel ── */}
             <Card
                 size="small"
