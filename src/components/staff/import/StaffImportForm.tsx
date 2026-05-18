@@ -51,7 +51,7 @@ export default function StaffImportForm() {
     const formatVND = (amount: number) => new Intl.NumberFormat('vi-VN').format(amount);
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', minWidth: 0, width: '100%', overflow: 'hidden' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {/* ── AI Suggestions Panel ── */}
             <Card
                 size="small"
@@ -64,7 +64,16 @@ export default function StaffImportForm() {
                         </Tag>
                     </Space>
                 }
-                style={{ background: '#f5f3ff', borderColor: '#a78bfa', width: '100%', overflow: 'hidden' }}
+                styles={{
+                    body: {
+                        overflowX: 'auto',
+                        padding: '12px',
+                        scrollbarWidth: 'thin',
+                        scrollbarColor: '#a78bfa transparent',
+                        maxWidth: '80vw'
+                    }
+                }}
+                style={{ background: '#f5f3ff', borderColor: '#a78bfa', minWidth: 0 }}
                 loading={aiLoading}
                 extra={
                     <Button size="small" icon={<RobotOutlined />} onClick={fetchAiSuggestions}>
@@ -75,15 +84,7 @@ export default function StaffImportForm() {
                 {suggestions.length === 0 && !aiLoading ? (
                     <Text type="secondary">Tồn kho đang ở mức an toàn, không có gợi ý nhập hàng.</Text>
                 ) : (
-                    <div style={{
-                        display: 'flex',
-                        flexWrap: 'nowrap',
-                        gap: 12,
-                        overflowX: 'auto',
-                        paddingBottom: 8,
-                        width: '100%',
-                        WebkitOverflowScrolling: 'touch'
-                    }}>
+                    <div style={{ display: 'flex', gap: 12 }}>
                         {suggestions.map(s => (
                             <Card
                                 key={s.product_id}
