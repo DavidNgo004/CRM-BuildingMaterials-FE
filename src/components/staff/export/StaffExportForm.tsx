@@ -121,8 +121,8 @@ export default function StaffExportForm() {
                                 value={newCustomerType || undefined}
                                 onChange={val => setNewCustomerType(val)}
                                 options={[
-                                    { value: 'Khách hàng bán lẻ', label: 'Khách hàng bán lẻ' },
-                                    { value: 'Khách hàng mua số lượng lớn', label: 'Khách hàng mua số lượng lớn' }
+                                    { value: 'retail', label: 'Khách hàng bán lẻ' },
+                                    { value: 'wholesale', label: 'Khách hàng mua số lượng lớn' }
                                 ]}
                             />
                         </div>

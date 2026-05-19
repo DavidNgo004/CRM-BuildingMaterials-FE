@@ -103,6 +103,10 @@ export const useStaffExportForm = () => {
                 const newCust = await customerApi.create({
                     name: newCustomerName.trim(),
                     phone: newCustomerPhone.trim() || undefined,
+                    email: newCustomerEmail.trim() || undefined,
+                    address: newCustomerAddress.trim() || undefined,
+                    customer_type: (newCustomerType as 'retail' | 'wholesale') || 'retail',
+                    status: true,
                 } as any);
                 finalCustomerId = newCust.data.id;
             } else {
